@@ -1,13 +1,40 @@
+const leftContent = {
+  register: {
+    image: "/snitch_editorial_warm.png",
+    heading: (
+      <>
+        Define your
+        <br />
+        <em>aesthetic.</em>
+      </>
+    ),
+    subtext:
+      "Join the exclusive movement of creators and brands redefining the modern fashion landscape.",
+  },
+  login: {
+    image: "/snitch_editorial.png",
+    heading: (
+      <>
+        Welcome
+        <br />
+        <em>back.</em>
+      </>
+    ),
+    subtext:
+      "Your style journey continues. Sign in to explore new arrivals and manage your wardrobe.",
+  },
+};
 
+const LeftSide = ({ mode = "register" }) => {
+  const content = leftContent[mode];
 
-const LeftSide = () => {
   return (
     <div
       className="hidden lg:flex lg:w-1/2 relative overflow-hidden"
       style={{ backgroundColor: "#f5f3f0" }}
     >
       <img
-        src="/snitch_editorial_warm.png"
+        src={content.image}
         alt="Snitch Fashion Editorial"
         className="absolute inset-0 w-full h-full object-cover object-top"
         style={{ filter: "brightness(0.97)" }}
@@ -34,21 +61,18 @@ const LeftSide = () => {
             className="text-5xl xl:text-6xl font-light leading-[1.08] text-white mb-5"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
-            Define your
-            <br />
-            <em>aesthetic.</em>
+            {content.heading}
           </p>
           <p
-            className="text-sm font-light leading-relaxed max-w-xs"
+            className="text-sm font-light leading-relaxed"
             style={{ color: "rgba(255,255,255,0.65)" }}
           >
-            Join the exclusive movement of creators and brands redefining the
-            modern fashion landscape.
+            {content.subtext}
           </p>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default LeftSide
+export default LeftSide;
