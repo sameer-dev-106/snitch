@@ -1,6 +1,4 @@
-
-
-const SubmitBtn = () => {
+const SubmitBtn = ({ label = "Sign Up" }) => {
   return (
     <button
       type="submit"
@@ -19,9 +17,9 @@ const SubmitBtn = () => {
         e.currentTarget.style.color = "#fbf9f6";
       }}
     >
-      Sign Up
+      {label}
     </button>
   );
-}
+};
 
-export default SubmitBtn
+export default SubmitBtn;
