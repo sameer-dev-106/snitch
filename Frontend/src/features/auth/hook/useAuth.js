@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 export const useAuth = () => {
     const dispatch = useDispatch();
 
-    const register = async ({ email, contact, password, fullname, isSeller = false }) => {
+    const handleRegister = async ({ email, contact, password, fullname, isSeller = false }) => {
         dispatch(setLoading(true));
         try {
             const data = await registerApi({ email, contact, password, fullname, isSeller });
@@ -20,6 +20,6 @@ export const useAuth = () => {
         }
     }
 
-    return { register };
+    return { handleRegister };
 
 }
