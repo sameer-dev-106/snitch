@@ -11,5 +11,7 @@ if (!process.env.JWT_SECRET) {
 
 export const config = {
     MONGO_URI: process.env.MONGO_URI,
-    JWT_SECRET: process.env.JWT_SECRET
+    JWT_SECRET: process.env.JWT_SECRET,
+    FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5173",
+    BACKEND_URL: process.env.BACKEND_URL || "http://localhost:3000",
 }
