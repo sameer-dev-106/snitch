@@ -3,17 +3,33 @@ import { useAuth } from "../hook/useAuth";
 import { useNavigate } from "react-router";
 import Form from "./Form";
 
-const RightSide = () => {
-  const { handleRegister } = useAuth();
-  const navigate = useNavigate();
+const headerContent = {
+  register: {
+    tag: "Welcome to Snitch",
+    heading: "Elevate Your Style",
+  },
+  login: {
+    tag: "Good to see you",
+    heading: "Welcome Back",
+  },
+};
 
-  const [formData, setFormData] = useState({
-    fullName: "",
-    contactNumber: "",
-    email: "",
-    password: "",
-    isSeller: false,
-  });
+const RightSide = ({ mode = "register" }) => {
+  const { handleRegister, handleLogin } = useAuth();
+  const navigate = useNavigate();
+  const content = headerContent[mode];
+
+  const [formData, setFormData] = useState(
+    mode === "register"
+      ? {
+          fullName: "",
+          contactNumber: "",
+          email: "",
+          password: "",
+          isSeller: false,
+        }
+      : { email: "", password: "" },
+  );
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -25,14 +41,23 @@ const RightSide = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await handleRegister({
-      email: formData.email,
-      contact: formData.contactNumber.replace(/^\+91/, "").trim(),
-      password: formData.password,
-      isSeller: formData.isSeller,
-      fullname: formData.fullName,
-    });
-    if (result?.success) navigate("/");
+
+    if (mode === "register") {
+      const result = await handleRegister({
+        email: formData.email,
+        contact: formData.contactNumber.replace(/^\+91/, "").trim(),
+        password: formData.password,
+        fullname: formData.fullName,
+        isSeller: formData.isSeller,
+      });
+      if (result?.success) navigate("/");
+    } else {
+      const result = await handleLogin({
+        email: formData.email,
+        password: formData.password,
+      });
+      if (result?.success) navigate("/");
+    }
   };
 
   return (
@@ -65,7 +90,7 @@ const RightSide = () => {
               className="text-[10px] uppercase tracking-[0.22em] mb-4 font-medium"
               style={{ color: "#C9A96E" }}
             >
-              Welcome to Snitch
+              {content.tag}
             </p>
             <h1
               className="text-[2.6rem] xl:text-5xl font-light leading-[1.1]"
@@ -74,14 +99,16 @@ const RightSide = () => {
                 color: "#1b1c1a",
               }}
             >
-              Elevate Your Style
+              {content.heading}
             </h1>
           </div>
+
           {/* Form */}
           <Form
             formData={formData}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
+            mode={mode}
           />
         </div>
       </div>
