@@ -22,13 +22,25 @@ export const register = async (req, res) => {
     try {
         const { email, contact, password, fullname, isSeller } = req.body;
         const existingUser = await userModel.findOne({ $or: [{ email }, { contact }] });
-        if (existingUser) {
-            return res.status(400).json({ message: "User with this email or contact already exists" });
-        }
+        if (existingUser) return res.status(400).json({ message: "User with this email or contact already exists" });
         const user = await userModel.create({ email, contact, password, fullname, role: isSeller ? "seller" : "buyer" });
-        await sendTokenResponse(user, res, "User registered successfully")
+        await sendTokenResponse(user, res, "User registered successfully");
     } catch (error) {
-        console.log(error)
-        return res.status(500).json({ message: "Server error" })
+        console.log(error);
+        return res.status(500).json({ message: "Server error" });
     }
-} 
+}
+
+export const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await userModel.findOne({ email });
+        if (!user) return res.status(400).json({ message: "Invalid email or password", success: false });
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) return res.status(400).json({ message: "Invalid password", success: false });
+        await sendTokenResponse(user, res, "Login successful");
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Server error" });
+    }
+}
