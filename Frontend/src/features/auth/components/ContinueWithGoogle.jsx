@@ -1,10 +1,11 @@
 
 
 const ContinueWithGoogle = () => {
+  const newLocal = "flex items-center justify-center w-full bg-transparent border border-[#E8E2D9] px-4 py-3 text-sm font-medium text-[#7A6E63] hover:border-[var(--color-accent)] hover:text-[var(--color-text)] transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-[#C9A96E] focus:ring-offset-2 focus:ring-offset-[#fbf9f6]";
   return (
     <a
       href="/api/auth/google"
-      className="flex items-center justify-center w-full bg-transparent border border-[#E8E2D9] px-4 py-3 text-sm font-medium text-[#7A6E63] hover:border-[#C9A96E] hover:text-[#1b1c1a] transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-[#C9A96E] focus:ring-offset-2 focus:ring-offset-[#fbf9f6]"
+      className={newLocal}
       style={{ fontFamily: "'Inter', sans-serif", letterSpacing: "0.04em" }}
     >
       <svg className="w-5 h-5 mr-3" viewBox="0 0 48 48">
