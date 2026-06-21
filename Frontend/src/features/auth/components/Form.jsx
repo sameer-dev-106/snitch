@@ -74,7 +74,7 @@ const Form = ({ formData, handleChange, handleSubmit, mode = "register" }) => {
         <div className="flex-1 h-px" style={{ backgroundColor: "#e4e2df" }} />
         <span
           className="text-[10px] uppercase tracking-[0.15em]"
-          style={{ color: "#B5ADA3" }}
+          style={{ color: "var(--color-muted)" }}
         >
           or
         </span>
@@ -90,28 +90,28 @@ const Form = ({ formData, handleChange, handleSubmit, mode = "register" }) => {
             <Link
               to="/login"
               style={{
-                color: "#7A6E63",
+                color: "var(--color-muted)",
                 textDecoration: "underline",
                 textUnderlineOffset: "3px",
               }}
-              onMouseEnter={(e) => (e.target.style.color = "#C9A96E")}
-              onMouseLeave={(e) => (e.target.style.color = "#7A6E63")}
+              onMouseEnter={(e) => (e.target.style.color = "var(--color-accent)") }
+              onMouseLeave={(e) => (e.target.style.color = "var(--color-muted)") }
             >
               Sign in
             </Link>
-          </>
+          </ >
         ) : (
           <>
             Don&apos;t have an account?{" "}
             <Link
               to="/register"
               style={{
-                color: "#7A6E63",
+                color: "var(--color-muted)",
                 textDecoration: "underline",
                 textUnderlineOffset: "3px",
               }}
-              onMouseEnter={(e) => (e.target.style.color = "#C9A96E")}
-              onMouseLeave={(e) => (e.target.style.color = "#7A6E63")}
+              onMouseEnter={(e) => (e.target.style.color = "var(--color-accent)") }
+              onMouseLeave={(e) => (e.target.style.color = "var(--color-muted)") }
             >
               Sign up
             </Link>
