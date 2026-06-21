@@ -68,7 +68,7 @@ const RightSide = ({ mode = "register" }) => {
       />
       <div
         className="w-full lg:w-1/2 flex items-center justify-center min-h-screen px-8 sm:px-14 lg:px-20 py-5 md:py-8 overflow-y-auto"
-        style={{ backgroundColor: "#fbf9f6" }}
+        style={{ backgroundColor: "var(--color-bg)" }}
       >
         <div className="w-full max-w-sm">
           {/* Mobile brand mark */}
@@ -77,7 +77,7 @@ const RightSide = ({ mode = "register" }) => {
               className="text-sm tracking-[0.35em] uppercase"
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                color: "#C9A96E",
+                color: "var(--color-accent)",
               }}
             >
               Snitch.
@@ -88,7 +88,7 @@ const RightSide = ({ mode = "register" }) => {
           <div className="mb-4 md:mb-7">
             <p
               className="text-[10px] uppercase tracking-[0.22em] mb-4 font-medium"
-              style={{ color: "#C9A96E" }}
+              style={{ color: "var(--color-accent)" }}
             >
               {content.tag}
             </p>
@@ -96,7 +96,7 @@ const RightSide = ({ mode = "register" }) => {
               className="text-[2.6rem] xl:text-5xl font-light leading-[1.1]"
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                color: "#1b1c1a",
+                color: "var(--color-text)",
               }}
             >
               {content.heading}
