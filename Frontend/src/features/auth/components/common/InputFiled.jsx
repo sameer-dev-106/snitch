@@ -6,16 +6,16 @@ const InputFiled = ({ props }) => {
   const isPassword = props.type === "password";
 
   const inputStyle = {
-    color: "#1b1c1a",
-    borderBottom: "1px solid #d0c5b5",
+    color: "var(--color-text)",
+    borderBottom: "1px solid var(--color-border)",
     fontFamily: "'Inter', sans-serif",
   };
 
   const handleFocus = (e) => {
-    e.target.style.borderBottomColor = "#C9A96E";
+    e.target.style.borderBottomColor = "var(--color-accent)";
   };
   const handleBlur = (e) => {
-    e.target.style.borderBottomColor = "#d0c5b5";
+    e.target.style.borderBottomColor = "var(--color-border)";
   };
 
   return (
@@ -23,7 +23,7 @@ const InputFiled = ({ props }) => {
       <label
         htmlFor={`reg-${props.name}`}
         className="text-[10px] uppercase tracking-[0.18em] font-medium"
-        style={{ color: "#7A6E63" }}
+        style={{ color: "var(--color-muted)" }}
       >
         {props.label}
       </label>
@@ -51,9 +51,9 @@ const InputFiled = ({ props }) => {
             type="button"
             onClick={() => setShowPassword((p) => !p)}
             className="absolute right-0 bottom-3 focus:outline-none"
-            style={{ color: "#B5ADA3" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A96E")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#B5ADA3")}
+            style={{ color: "var(--color-muted)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-accent)")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--color-muted)")}
           >
             {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
           </button>
