@@ -15,7 +15,7 @@ async function sendTokenResponse(user, res, message) {
             fullname: user.fullname,
             role: user.role
         }
-    })
+    });
 }
 
 export const register = async (req, res) => {
@@ -42,5 +42,23 @@ export const login = async (req, res) => {
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Server error" });
+    }
+}
+
+export const googleCallBack = async (req, res) => {
+    try {
+        if (!req.user) return res.redirect(config.NODE_ENV == "development" ? `${config.FRONTEND_URL}/login` : "/login");
+        const { id, displayName, emails, photos } = req.user;
+        const email = emails?.[0]?.value;
+        const photo = photos?.[0]?.value;
+        if (!email) return res.redirect(`${config.FRONTEND_URL}/login`);
+        let user = await userModel.findOne({ email });
+        if (!user) user = await userModel.create({ email, googleId: id, fullname: displayName });
+        const token = jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: "7d" });
+        res.cookie("token", token);
+        return res.redirect(config.FRONTEND_URL);
+    } catch (error) {
+        console.log(error);
+        return res.redirect(config.NODE_ENV == "development" ? `${config.FRONTEND_URL}/login` : "/login");
     }
 }
