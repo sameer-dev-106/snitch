@@ -18,7 +18,7 @@ async function sendTokenResponse(user, res, message) {
     });
 }
 
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
     try {
         const { email, contact, password, fullname, isSeller } = req.body;
         const existingUser = await userModel.findOne({ $or: [{ email }, { contact }] });
@@ -26,12 +26,11 @@ export const register = async (req, res) => {
         const user = await userModel.create({ email, contact, password, fullname, role: isSeller ? "seller" : "buyer" });
         await sendTokenResponse(user, res, "User registered successfully");
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Server error" });
+        next(error);
     }
 }
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         const user = await userModel.findOne({ email });
@@ -40,12 +39,11 @@ export const login = async (req, res) => {
         if (!isMatch) return res.status(400).json({ message: "Invalid password", success: false });
         await sendTokenResponse(user, res, "Login successful");
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({ message: "Server error" });
+        next(error);
     }
 }
 
-export const googleCallBack = async (req, res) => {
+export const googleCallBack = async (req, res, next) => {
     try {
         if (!req.user) return res.redirect(config.NODE_ENV == "development" ? `${config.FRONTEND_URL}/login` : "/login");
         const { id, displayName, emails, photos } = req.user;
@@ -58,7 +56,7 @@ export const googleCallBack = async (req, res) => {
         res.cookie("token", token);
         return res.redirect(config.FRONTEND_URL);
     } catch (error) {
-        console.log(error);
+        next(error);
         return res.redirect(config.NODE_ENV == "development" ? `${config.FRONTEND_URL}/login` : "/login");
     }
 }
