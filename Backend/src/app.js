@@ -4,8 +4,9 @@ import morgan from "morgan";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
-import authRouter from "./routes/auth.routes.js";
 import { config } from "./config/config.js";
+import authRouter from "./routes/auth.routes.js";
+import handleError from "./middlewares/error.middleware.js";
 
 const app = express();
 
@@ -27,6 +28,10 @@ app.get("/", (req, res) => {
     res.status(200).json({ message: "Server is running..." });
 });
 
+// Routes
 app.use("/api/auth", authRouter)
+
+// Error handling middleware
+app.use(handleError);
 
 export default app;
