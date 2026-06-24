@@ -26,3 +26,12 @@ export const loginApi = async ({ email, password }) => {
         handleApiError(err, "Failed to login.");
     }
 };
+
+export const getMe = async () => {
+    try {
+        const response = await API.get("/me");
+        return response.data;
+    } catch (err) {
+        handleApiError(err, "Failed to fetch user profile.");
+    }
+}
