@@ -60,3 +60,22 @@ export const googleCallBack = async (req, res, next) => {
         return res.redirect(config.NODE_ENV == "development" ? `${config.FRONTEND_URL}/login` : "/login");
     }
 }
+
+export const getMe = async (req, res, next) => {
+    try {
+        const user = req.user;
+        res.status(200).json({
+            message: "User fetched successfully",
+            success: true,
+            user: {
+                id: user.id,
+                email: user.email,
+                contact: user.contact,
+                fullname: user.fullname,
+                role: user.role
+            }
+        })
+    } catch (error) {
+        next(error);
+    }
+}
