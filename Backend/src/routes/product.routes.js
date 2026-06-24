@@ -17,7 +17,7 @@ router.use(authenticateSeller);
  * @description Create a new product
  * @access Private (Seller only)
  */
-router.post("/", createProductValidator, upload.array("image", 7), createProduct);
+router.post("/", upload.array("image", 7), createProductValidator, createProduct);
 
 /**
  * @route GET /api/products/seller
