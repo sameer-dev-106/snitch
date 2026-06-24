@@ -1,0 +1,28 @@
+import axios from "axios";
+
+const API = axios.create({
+    baseURL: "/api/products",
+    withCredentials: true
+});
+
+const handleApiError = (err, fallbackMessage) => {
+    throw err?.response?.data?.message || err?.message || fallbackMessage;
+};
+
+export const createProductApi = async (formData) => {
+    try {
+        const response = await API.post("/", formData);
+        return response.data;
+    } catch (err) {
+        handleApiError(err, "Failed to create product");
+    }
+}
+
+export const getSellerProduct = async () => {
+    try {
+        const response = await API.get("/seller");
+        return response.data;
+    } catch (err) {
+        handleApiError(err, "Failed to fetch seller products");
+    }
+}
