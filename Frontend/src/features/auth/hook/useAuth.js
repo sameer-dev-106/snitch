@@ -1,5 +1,5 @@
 import { setUser, setLoading, setError } from "../state/auth.slice";
-import { registerApi, loginApi } from "../service/auth.api";
+import { registerApi, loginApi, getMe } from "../service/auth.api";
 import { useDispatch } from "react-redux";
 
 export const useAuth = () => {
@@ -9,8 +9,9 @@ export const useAuth = () => {
         dispatch(setLoading(true));
         try {
             const data = await registerApi({ email, contact, password, fullname, isSeller });
-            dispatch(setUser(data.user));
-            return { success: true, user: data.user };
+            const user = data?.user;
+            if (user) dispatch(setUser(user));
+            return { success: true, user };
         } catch (err) {
             const message = typeof err === "string" ? err : err?.message || "Registration failed";
             dispatch(setError(message));
@@ -24,8 +25,10 @@ export const useAuth = () => {
         dispatch(setLoading(true));
         try {
             const data = await loginApi({ email, password });
+            const user = data?.user;
+            if (user) dispatch(setUser(user));
             dispatch(setUser(data.user));
-            return { success: true, user: data.user };
+            return { success: true, user };
         } catch (err) {
             const message = typeof err === "string" ? err : err?.message || "Login failed";
             dispatch(setError(message));
@@ -35,5 +38,21 @@ export const useAuth = () => {
         }
     };
 
-    return { handleRegister, handleLogin };
+    const handleGetMe = async () => {
+        dispatch(setLoading(true));
+        try {
+            const data = await getMe()
+            const user = data?.user;
+            if (user) dispatch(setUser(user));
+            return { success: true, user };
+        } catch (err) {
+            const message = typeof err === "string" ? err : err?.message || " failed";
+            dispatch(setError(message));
+            return { success: false, error: message };
+        } finally {
+            dispatch(setLoading(false));
+        }
+    }
+
+    return { handleRegister, handleLogin, handleGetMe };
 };
