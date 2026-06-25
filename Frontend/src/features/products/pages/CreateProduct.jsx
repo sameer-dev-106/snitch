@@ -48,6 +48,7 @@ const CreateProduct = () => {
       setIsDragging(false);
       if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [images],
   );
 
@@ -198,7 +199,7 @@ const CreateProduct = () => {
                   </label>
                   <div className="flex gap-5 items-end">
                     {/* Amount */}
-                    <div className="flex flex-col gap-1 flex-[3]">
+                    <div className="flex flex-col gap-1 flex-3">
                       <span
                         className="text-[9px] uppercase tracking-[0.18em]"
                         style={{ color: "var(--color-border)" }}
@@ -222,7 +223,7 @@ const CreateProduct = () => {
                       />
                     </div>
                     {/* Currency */}
-                    <div className="flex flex-col gap-1 flex-[1]">
+                    <div className="flex flex-col gap-1 flex-1">
                       <span
                         className="text-[9px] uppercase tracking-[0.18em]"
                         style={{ color: "var(--color-border)" }}
