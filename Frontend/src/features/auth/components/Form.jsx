@@ -1,7 +1,7 @@
-import InputFiled from "./common/InputFiled";
-import SellerCheckbox from "./common/SellerCheckbox";
+import InputFiled from "./InputFiled";
+import SellerCheckbox from "./SellerCheckbox";
 import ContinueWithGoogle from "./ContinueWithGoogle";
-import SubmitBtn from "./common/SubmitBtn";
+import SubmitBtn from "./SubmitBtn";
 import { Link } from "react-router";
 
 const Form = ({ formData, handleChange, handleSubmit, mode = "register" }) => {
@@ -94,12 +94,16 @@ const Form = ({ formData, handleChange, handleSubmit, mode = "register" }) => {
                 textDecoration: "underline",
                 textUnderlineOffset: "3px",
               }}
-              onMouseEnter={(e) => (e.target.style.color = "var(--color-accent)") }
-              onMouseLeave={(e) => (e.target.style.color = "var(--color-muted)") }
+              onMouseEnter={(e) =>
+                (e.target.style.color = "var(--color-accent)")
+              }
+              onMouseLeave={(e) =>
+                (e.target.style.color = "var(--color-muted)")
+              }
             >
               Sign in
             </Link>
-          </ >
+          </>
         ) : (
           <>
             Don&apos;t have an account?{" "}
@@ -110,8 +114,12 @@ const Form = ({ formData, handleChange, handleSubmit, mode = "register" }) => {
                 textDecoration: "underline",
                 textUnderlineOffset: "3px",
               }}
-              onMouseEnter={(e) => (e.target.style.color = "var(--color-accent)") }
-              onMouseLeave={(e) => (e.target.style.color = "var(--color-muted)") }
+              onMouseEnter={(e) =>
+                (e.target.style.color = "var(--color-accent)")
+              }
+              onMouseLeave={(e) =>
+                (e.target.style.color = "var(--color-muted)")
+              }
             >
               Sign up
             </Link>
