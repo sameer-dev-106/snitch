@@ -1,4 +1,4 @@
-import { useTheme } from "../../../app/useTheme.jsx";
+import { useTheme } from "../../../shared/useTheme.jsx";
 
 const leftContent = {
   register: {
