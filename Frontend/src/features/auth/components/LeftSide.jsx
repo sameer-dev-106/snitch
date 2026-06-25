@@ -1,6 +1,7 @@
+import { useTheme } from "../../../app/useTheme.jsx";
+
 const leftContent = {
   register: {
-    image: "/snitch_editorial_warm.png",
     heading: (
       <>
         Define your
@@ -12,7 +13,6 @@ const leftContent = {
       "Join the exclusive movement of creators and brands redefining the modern fashion landscape.",
   },
   login: {
-    image: "/snitch_editorial.png",
     heading: (
       <>
         Welcome
@@ -25,7 +25,20 @@ const leftContent = {
   },
 };
 
+const images = {
+  register: {
+    light: "/snitch_editorial_warm.png",
+    dark: "/snitch_editorial.png",
+  },
+  login: {
+    light: "/snitch_editorial_warm.png",
+    dark: "/snitch_editorial.png",
+  },
+};
+
 const LeftSide = ({ mode = "register" }) => {
+  const { theme } = useTheme();
+  const src = images[mode][theme];
   const content = leftContent[mode];
 
   return (
@@ -34,7 +47,7 @@ const LeftSide = ({ mode = "register" }) => {
       style={{ backgroundColor: "#f5f3f0" }}
     >
       <img
-        src={content.image}
+        src={src}
         alt="Snitch Fashion Editorial"
         className="absolute inset-0 w-full h-full object-cover object-top"
         style={{ filter: "brightness(0.97)" }}
