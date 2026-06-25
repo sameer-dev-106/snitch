@@ -1,10 +1,16 @@
-import InputFiled from "./InputFiled";
-import SellerCheckbox from "./SellerCheckbox";
-import ContinueWithGoogle from "./ContinueWithGoogle";
-import SubmitBtn from "./SubmitBtn";
+import InputFiled from "./common/InputFiled";
+import SellerCheckbox from "./common/SellerCheckbox";
+import ContinueWithGoogle from "./common/ContinueWithGoogle";
+import SubmitBtn from "./common/SubmitBtn";
 import { Link } from "react-router";
 
-const Form = ({ formData, handleChange, handleSubmit, mode = "register" }) => {
+const Form = ({
+  formData,
+  handleChange,
+  handleSubmit,
+  isLoading,
+  mode = "register",
+}) => {
   const isRegister = mode === "register";
 
   return (
@@ -68,7 +74,10 @@ const Form = ({ formData, handleChange, handleSubmit, mode = "register" }) => {
         />
       )}
 
-      <SubmitBtn label={isRegister ? "Sign Up" : "Sign In"} />
+      <SubmitBtn
+        label={isRegister ? "Sign Up" : "Sign In"}
+        isLoading={isLoading}
+      />
 
       <div className="flex items-center gap-4">
         <div className="flex-1 h-px" style={{ backgroundColor: "#e4e2df" }} />
