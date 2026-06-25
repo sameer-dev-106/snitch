@@ -45,20 +45,28 @@ const InputFiled = ({ props }) => {
           onBlur={handleBlur}
         />
 
-        {/* Eye toggle — sirf password field pe */}
+        {/* Eye toggle */}
         {isPassword && (
           <button
             type="button"
             onClick={() => setShowPassword((p) => !p)}
             className="absolute right-0 bottom-3 focus:outline-none"
             style={{ color: "var(--color-muted)" }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-accent)")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "var(--color-muted)")}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.color = "var(--color-accent)")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.color = "var(--color-muted)")
+            }
           >
             {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
           </button>
         )}
       </div>
+
+      {props.error && (
+        <span className="text-[10px] text-red-500">{props.error}</span>
+      )}
     </div>
   );
 };
