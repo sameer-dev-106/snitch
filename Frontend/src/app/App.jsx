@@ -1,7 +1,7 @@
 import "./App.css";
 import { RouterProvider } from "react-router";
 import router from "./app.routes";
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "../shared/ThemeToggle";
 import { useAuth } from "../features/auth/hook/useAuth";
 import { useEffect } from "react";
 
