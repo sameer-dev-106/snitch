@@ -47,32 +47,58 @@ const RightSide = ({ mode = "register" }) => {
     e.preventDefault();
 
     if (mode === "register") {
-      const { success, error } = await handleRegister({
-        email: formData.email,
-        contact: formData.contactNumber.replace(/^\+91/, "").trim(),
-        password: formData.password,
-        fullname: formData.fullName,
-        isSeller: formData.isSeller,
-      });
-      if (!success) {
+      try {
+        const { success, error, user } = await handleRegister({
+          email: formData.email,
+          contact: formData.contactNumber.replace(/^\+91/, "").trim(),
+          password: formData.password,
+          fullname: formData.fullName,
+          isSeller: formData.isSeller,
+        });
+        if (!success) {
+          setToast({
+            message: error || "Register failed. Please check your credentials.",
+            type: "error",
+          });
+          return;
+        } else if (user.role == "buyer") {
+          navigate("/");
+        } else if (user.role == "seller") {
+          navigate("/seller/dashboard");
+        }
+      } catch (error) {
         setToast({
-          message: error || "Register failed. Please check your credentials.",
+          message:
+            error.message || "Register failed. Please check your credentials.",
           type: "error",
         });
         return;
-      } else if (success) navigate("/");
+      }
     } else {
-      const { success, error } = await handleLogin({
-        email: formData.email,
-        password: formData.password,
-      });
-      if (!success) {
+      try {
+        const { success, error, user } = await handleLogin({
+          email: formData.email,
+          password: formData.password,
+        });
+        if (!success) {
+          setToast({
+            message: error || "Login failed. Please check your credentials.",
+            type: "error",
+          });
+          return;
+        } else if (user.role == "buyer") {
+          navigate("/");
+        } else if (user.role == "seller") {
+          navigate("/seller/dashboard");
+        }
+      } catch (error) {
         setToast({
-          message: error || "Register failed. Please check your credentials.",
+          message:
+            error.message || "Login failed. Please check your credentials.",
           type: "error",
         });
         return;
-      } else if (success) navigate("/");
+      }
     }
   };
 
