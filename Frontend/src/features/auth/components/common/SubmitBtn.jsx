@@ -1,8 +1,9 @@
-const SubmitBtn = ({ label = "Sign Up" }) => {
+const SubmitBtn = ({ label = "Submit", isLoading = false }) => {
   return (
     <button
       type="submit"
-      className="w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-all duration-300"
+      disabled={isLoading}
+      className="w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-all duration-300 disabled:opacity-60"
       style={{
         backgroundColor: "var(--color-text)",
         color: "var(--color-bg)",
@@ -17,7 +18,7 @@ const SubmitBtn = ({ label = "Sign Up" }) => {
         e.currentTarget.style.color = "var(--color-bg)";
       }}
     >
-      {label}
+      {isLoading ? "Please wait..." : label}
     </button>
   );
 };
