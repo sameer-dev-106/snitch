@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../hook/useAuth";
 import { useNavigate } from "react-router";
 import Form from "./Form";
+import Toast from "../../../shared/Toast";
 
 const headerContent = {
   register: {
@@ -18,7 +19,7 @@ const RightSide = ({ mode = "register" }) => {
   const { handleRegister, handleLogin } = useAuth();
   const navigate = useNavigate();
   const content = headerContent[mode];
-
+  const [toast, setToast] = useState(null);
   const [formData, setFormData] = useState(
     mode === "register"
       ? {
@@ -43,20 +44,32 @@ const RightSide = ({ mode = "register" }) => {
     e.preventDefault();
 
     if (mode === "register") {
-      const result = await handleRegister({
+      const { success, error } = await handleRegister({
         email: formData.email,
         contact: formData.contactNumber.replace(/^\+91/, "").trim(),
         password: formData.password,
         fullname: formData.fullName,
         isSeller: formData.isSeller,
       });
-      if (result?.success) navigate("/");
+      if (!success) {
+        setToast({
+          message: error || "Register failed. Please check your credentials.",
+          type: "error",
+        });
+        return;
+      } else if (success) navigate("/");
     } else {
-      const result = await handleLogin({
+      const { success, error } = await handleLogin({
         email: formData.email,
         password: formData.password,
       });
-      if (result?.success) navigate("/");
+      if (!success) {
+        setToast({
+          message: error || "Register failed. Please check your credentials.",
+          type: "error",
+        });
+        return;
+      } else if (success) navigate("/");
     }
   };
 
@@ -66,6 +79,13 @@ const RightSide = ({ mode = "register" }) => {
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap"
         rel="stylesheet"
       />
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
       <div
         className="w-full lg:w-1/2 flex items-center justify-center min-h-screen px-8 sm:px-14 lg:px-20 py-5 md:py-8 overflow-y-auto"
         style={{ backgroundColor: "var(--color-bg)" }}
