@@ -3,6 +3,7 @@ import { useAuth } from "../hook/useAuth";
 import { useNavigate } from "react-router";
 import Form from "./Form";
 import Toast from "../../../shared/Toast";
+import { useSelector } from "react-redux";
 
 const headerContent = {
   register: {
@@ -16,6 +17,8 @@ const headerContent = {
 };
 
 const RightSide = ({ mode = "register" }) => {
+  const loading = useSelector((state) => state.auth.loading);
+  const error = useSelector((state) => state.auth.error);
   const { handleRegister, handleLogin } = useAuth();
   const navigate = useNavigate();
   const content = headerContent[mode];
@@ -125,10 +128,12 @@ const RightSide = ({ mode = "register" }) => {
 
           {/* Form */}
           <Form
+            mode={mode}
             formData={formData}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
-            mode={mode}
+            isLoading={loading}
+            error={error}
           />
         </div>
       </div>
