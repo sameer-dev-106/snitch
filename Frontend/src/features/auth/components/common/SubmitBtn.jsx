@@ -10,10 +10,12 @@ const SubmitBtn = ({ label = "Submit", isLoading = false }) => {
         fontFamily: "'Inter', sans-serif",
       }}
       onMouseEnter={(e) => {
+        if (isLoading) return;
         e.currentTarget.style.backgroundColor = "var(--color-muted)";
         e.currentTarget.style.color = "var(--color-text)";
       }}
       onMouseLeave={(e) => {
+        if (isLoading) return;
         e.currentTarget.style.backgroundColor = "var(--color-text)";
         e.currentTarget.style.color = "var(--color-bg)";
       }}
