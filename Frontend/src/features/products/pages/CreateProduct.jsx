@@ -13,7 +13,7 @@ const CreateProduct = () => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    priceAmount: "",
+    priceAmount: 0,
     priceCurrency: "INR",
   });
   const [images, setImages] = useState([]);
@@ -78,7 +78,7 @@ const CreateProduct = () => {
       data.append("priceCurrency", formData.priceCurrency);
       images.forEach((img) => data.append("images", img.file));
       await handleCreateProduct(data);
-      navigate("/");
+      navigate("/seller/dashboard");
     } catch (err) {
       console.error("Failed to create product", err);
     } finally {
