@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useProduct } from "../hook/useProduct";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import TopBar from "../components/common/TopBar";
+import TopBar from "../components/TopBar";
 
 const Dashboard = () => {
   const { handleGetSellerProduct } = useProduct();
