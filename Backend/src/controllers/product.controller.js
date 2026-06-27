@@ -18,11 +18,7 @@ export const createProduct = async (req, res, next) => {
             images,
             seller: seller._id
         });
-        res.status(201).json({
-            message: "Product create successfully",
-            success: true,
-            product
-        });
+        return res.status(201).json({ message: "Product create successfully", success: true, product });
     } catch (err) {
         next(err);
     }
@@ -32,7 +28,7 @@ export const getSellerProducts = async (req, res, next) => {
     try {
         const seller = req.user;
         const products = await productModel.find({ seller: seller._id });
-        res.status(200).json({ message: "Products fetched successfully", success: true, products })
+        return res.status(200).json({ message: "Products fetched successfully", success: true, products });
     } catch (err) {
         next(err);
     }
@@ -41,11 +37,7 @@ export const getSellerProducts = async (req, res, next) => {
 export const getAllProduct = async (req, res, next) => {
     try {
         const products = await productModel.find();
-        return res.status(200).json({
-            message: "Products fetched successfully",
-            success: true,
-            products
-        });
+        return res.status(200).json({ message: "Products fetched successfully", success: true, products });
     } catch (err) {
         next(err);
     }
