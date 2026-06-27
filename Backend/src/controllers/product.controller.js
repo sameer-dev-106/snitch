@@ -16,7 +16,7 @@ export const createProduct = async (req, res, next) => {
             description,
             price: { amount: priceAmount, currency: priceCurrency || "INR" },
             images,
-            seller: seller._id
+            seller: seller.id
         });
         return res.status(201).json({ message: "Product create successfully", success: true, product });
     } catch (err) {
