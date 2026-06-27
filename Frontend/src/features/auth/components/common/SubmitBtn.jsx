@@ -3,7 +3,7 @@ const SubmitBtn = ({ label = "Submit", isLoading = false }) => {
     <button
       type="submit"
       disabled={isLoading}
-      className="w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-all duration-300 disabled:opacity-60"
+      className="w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
       style={{
         backgroundColor: "var(--color-text)",
         color: "var(--color-bg)",
