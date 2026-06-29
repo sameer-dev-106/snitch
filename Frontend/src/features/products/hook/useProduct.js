@@ -1,5 +1,5 @@
-import { createProductApi, getSellerProduct } from "../service/product.api";
-import { setSellerProduct, setError } from "../state/product.slice";
+import { createProductApi, getSellerProduct, getAllProducts } from "../service/product.api";
+import { setSellerProduct, setProducts, setError } from "../state/product.slice";
 import { useDispatch } from "react-redux";
 
 export const useProduct = () => {
@@ -8,7 +8,7 @@ export const useProduct = () => {
     const handleCreateProduct = async (fromData) => {
         try {
             const data = await createProductApi(fromData);
-            return data.product;
+            return data?.product;
         } catch (err) {
             dispatch(setError(err?.message || "Something went wrong"));
             return { success: false, error: err };
@@ -18,14 +18,25 @@ export const useProduct = () => {
     const handleGetSellerProduct = async () => {
         try {
             const data = await getSellerProduct();
-            dispatch(setSellerProduct(data.products));
-            return data.products;
+            dispatch(setSellerProduct(data?.products));
+            return data?.products;
         } catch (err) {
             dispatch(setError(err?.message || "Something went wrong"));
             return { success: false, error: err };
         }
     }
 
-    return { handleCreateProduct, handleGetSellerProduct };
+    const handleGetAllProducts = async () => {
+        try {
+            const data = await getAllProducts();
+            dispatch(setProducts(data?.products));
+            return data?.products;
+        } catch (err) {
+            dispatch(setError(err?.message || "Something went wrong"));
+            return { success: false, error: err };
+        }
+    }
+
+    return { handleCreateProduct, handleGetSellerProduct, handleGetAllProducts };
 
 }
