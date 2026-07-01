@@ -8,7 +8,7 @@ export const useProduct = () => {
     const handleCreateProduct = async (fromData) => {
         try {
             const data = await createProductApi(fromData);
-            return data?.product;
+            return { success: true, data: data?.product };
         } catch (err) {
             dispatch(setError(err?.message || "Something went wrong"));
             return { success: false, error: err };
@@ -18,8 +18,9 @@ export const useProduct = () => {
     const handleGetSellerProduct = async () => {
         try {
             const data = await getSellerProduct();
-            dispatch(setSellerProduct(data?.products));
-            return data?.products;
+            const products = data?.products;
+            if (products) dispatch(setSellerProduct(products));
+            return { success: true, products };
         } catch (err) {
             dispatch(setError(err?.message || "Something went wrong"));
             return { success: false, error: err };
@@ -29,8 +30,9 @@ export const useProduct = () => {
     const handleGetAllProducts = async () => {
         try {
             const data = await getAllProducts();
-            dispatch(setProducts(data?.products));
-            return data?.products;
+            const products = data?.products;
+            if (products) dispatch(setProducts(products));
+            return { success: true, products };
         } catch (err) {
             dispatch(setError(err?.message || "Something went wrong"));
             return { success: false, error: err };
