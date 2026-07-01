@@ -4,7 +4,7 @@ import { uploadFile } from "../services/storage.service.js";
 export const createProduct = async (req, res, next) => {
     try {
         const { title, description, priceAmount, priceCurrency } = req.body;
-        const seller = req.body;
+        const seller = req.user;
         const images = await Promise.all(req.files.map(async (file) => {
             return await uploadFile({
                 buffer: file.buffer,
@@ -16,7 +16,7 @@ export const createProduct = async (req, res, next) => {
             description,
             price: { amount: priceAmount, currency: priceCurrency || "INR" },
             images,
-            seller: seller.id
+            seller: seller._id
         });
         return res.status(201).json({ message: "Product create successfully", success: true, product });
     } catch (err) {
