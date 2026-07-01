@@ -7,7 +7,7 @@ import ProductGrid from "../components/ProductGrid";
 
 const Dashboard = () => {
   const { handleGetSellerProduct } = useProduct();
-  const sellerProducts = useSelector((state) => state.product.sellerProducts);
+  const sellerProducts = useSelector((state) => state.product.sellerProduct);
   const navigate = useNavigate();
 
   useEffect(() => {
