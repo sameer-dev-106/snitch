@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authenticateSeller } from "../middlewares/auth.middleware.js";
-import { createProduct, getAllProduct, getSellerProducts } from "../controllers/product.controller.js";
+import { createProduct, getAllProduct, getProductDetails, getSellerProducts } from "../controllers/product.controller.js";
 import { createProductValidator } from "../validation/product.validator.js";
 import multer, { memoryStorage } from "multer";
 
@@ -31,5 +31,12 @@ router.get("/seller", authenticateSeller, getSellerProducts);
  * @access Public
  */
 router.get("/", getAllProduct);
+
+/**
+ * @route GET /api/products/detail/:id
+ * @description Get product details
+ * @access Public
+ */
+router.get("/detail/:id", getProductDetails);
 
 export default router;
