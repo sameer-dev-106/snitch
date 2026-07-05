@@ -1,13 +1,11 @@
 import { useNavigate } from "react-router";
 
-const ProductCard = ({ product, imageUrl }) => {
+const ProductCard = ({ product, imageUrl, basePath = "/product" }) => {
   const navigate = useNavigate();
 
   return (
     <div
-      onClick={() => {
-        navigate(`/seller/product/${product._id}`);
-      }}
+      onClick={() => navigate(`${basePath}/${product._id}`)}
       key={product._id}
       className="group cursor-pointer flex flex-col"
     >
