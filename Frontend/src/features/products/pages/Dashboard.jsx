@@ -7,12 +7,12 @@ import ProductGrid from "../components/ProductGrid";
 
 const Dashboard = () => {
   const { handleGetSellerProduct } = useProduct();
-  const sellerProducts = useSelector((state) => state.product.sellerProduct);
+  const products = useSelector((state) => state.product.sellerProduct);
   const navigate = useNavigate();
 
   useEffect(() => {
     handleGetSellerProduct();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -75,7 +75,12 @@ const Dashboard = () => {
           </div>
 
           {/* ── Product Grid ── */}
-          <ProductGrid sellerProducts={sellerProducts} />
+          <ProductGrid
+            products={products}
+            basePath="/product"
+            emptyTitle="Empty Vault"
+            emptyMessage="You haven't added any curated pieces to your archive yet. Begin by creating a new listing."
+          />
         </div>
       </div>
     </>
