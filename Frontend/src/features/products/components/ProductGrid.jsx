@@ -1,18 +1,23 @@
 import ProductCard from "./ProductCard";
 
-const ProductGrid = ({ sellerProducts }) => {
-
+const ProductGrid = ({ products, emptyTitle, emptyMessage, basePath }) => {
   return (
     <>
-      {sellerProducts && sellerProducts.length > 0 ? (
+      {products && products.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16 pb-24">
-          {sellerProducts.map((product) => {
+          {products.map((product) => {
             const imageUrl =
               product.images && product.images.length > 0
                 ? product.images[0].url
                 : "/snitch_editorial_warm.png"; // Fallback to our warm editorial
 
-            return <ProductCard product={product} imageUrl={imageUrl} />;
+            return (
+              <ProductCard
+                product={product}
+                imageUrl={imageUrl}
+                basePath={basePath}
+              />
+            );
           })}
         </div>
       ) : (
@@ -21,7 +26,7 @@ const ProductGrid = ({ sellerProducts }) => {
             className="text-[10px] uppercase tracking-[0.2em] font-medium mb-4"
             style={{ color: "var(--color-accent)" }}
           >
-            Empty Vault
+            {emptyTitle}
           </span>
           <p
             className="max-w-md mx-auto text-lg leading-relaxed"
@@ -30,8 +35,7 @@ const ProductGrid = ({ sellerProducts }) => {
               color: "var(--color-muted)",
             }}
           >
-            You haven't added any curated pieces to your archive yet. Begin by
-            creating a new listing.
+            {emptyMessage}
           </p>
         </div>
       )}
