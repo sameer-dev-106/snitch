@@ -35,3 +35,12 @@ export const getAllProducts = async () => {
         handleApiError(err, "Filed to fetch products");
     }
 }
+
+export const getProductById = async (productId) => {
+    try {
+        const response = await API.get(`/detail/${productId}`);
+        return response?.data;
+    } catch (err) {
+        handleApiError(err, "Failed to fetch product details");
+    }
+}
