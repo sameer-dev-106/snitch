@@ -12,7 +12,20 @@ const productSchema = new mongoose.Schema({
             default: "INR"
         }
     },
-    images: [{ url: { type: String, required: true } }]
+    images: [{ url: { type: String, required: true } }],
+    variants: [{
+        images: [{ url: { type: String, required: true } }],
+        stock: { type: Number, default: 0 },
+        attributes: { type: Map, of: String },
+        price: {
+            amount: { type: Number, required: true },
+            currency: {
+                type: String,
+                enum: ["INR", "USD", "EUR", "GBP", "JPY"],
+                default: "INR"
+            }
+        },
+    }],
 }, { timestamps: true });
 
 const productModel = mongoose.model("product", productSchema);
