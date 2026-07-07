@@ -1,4 +1,4 @@
-import { createProductApi, getSellerProduct, getAllProducts } from "../service/product.api";
+import { createProductApi, getSellerProduct, getAllProducts, getProductById } from "../service/product.api";
 import { setSellerProduct, setProducts, setError } from "../state/product.slice";
 import { useDispatch } from "react-redux";
 
@@ -10,7 +10,7 @@ export const useProduct = () => {
             const data = await createProductApi(fromData);
             return { success: true, data: data?.product };
         } catch (err) {
-            dispatch(setError(err?.message || "Something went wrong"));
+            dispatch(setError(err?.message || "Error creating product"));
             return { success: false, error: err };
         }
     }
@@ -22,7 +22,7 @@ export const useProduct = () => {
             if (products) dispatch(setSellerProduct(products));
             return { success: true, products };
         } catch (err) {
-            dispatch(setError(err?.message || "Something went wrong"));
+            dispatch(setError(err?.message || "Error fetching seller products"));
             return { success: false, error: err };
         }
     }
@@ -34,11 +34,22 @@ export const useProduct = () => {
             if (products) dispatch(setProducts(products));
             return { success: true, products };
         } catch (err) {
-            dispatch(setError(err?.message || "Something went wrong"));
+            dispatch(setError(err?.message || "Error fetching products"));
             return { success: false, error: err };
         }
     }
 
-    return { handleCreateProduct, handleGetSellerProduct, handleGetAllProducts };
+    const handleGetProductById = async (productId) => {
+        try {
+            const data = await getProductById(productId);
+            const product = data?.product;
+            return product;
+        } catch (err) {
+            dispatch(setError(err?.message || "Error fetching product details"));
+            return { success: false, error: err }
+        }
+    }
+
+    return { handleCreateProduct, handleGetSellerProduct, handleGetAllProducts, handleGetProductById };
 
 }
