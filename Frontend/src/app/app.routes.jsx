@@ -8,16 +8,16 @@ import Home from "../features/products/pages/Home";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />,
-  },
-  {
     path: "/register",
     element: <Register />,
   },
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/",
+    element: <Home />,
   },
   {
     path: "/seller",
