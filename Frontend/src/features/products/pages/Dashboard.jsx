@@ -77,7 +77,7 @@ const Dashboard = () => {
           {/* ── Product Grid ── */}
           <ProductGrid
             products={products}
-            basePath="/product"
+            basePath="/seller/product"
             emptyTitle="Empty Vault"
             emptyMessage="You haven't added any curated pieces to your archive yet. Begin by creating a new listing."
           />
