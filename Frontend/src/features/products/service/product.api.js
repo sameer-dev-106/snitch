@@ -44,3 +44,17 @@ export const getProductById = async (productId) => {
         handleApiError(err, "Failed to fetch product details");
     }
 }
+
+export const addProductVariants = async (productId, newProductVariant) => {
+    try {
+        const formData = new FormData();
+        newProductVariant.images.forEach(image => { formData.append("images", image.file) });
+        formData.append("stock", newProductVariant.stock);
+        formData.append("priceAmount", newProductVariant.price);
+        formData.append("attributes", JSON.stringify(newProductVariant.attributes));
+        const response = await API.post(`/${productId}/variants`, formData);
+        return response?.data;
+    } catch (err) {
+        handleApiError(err, "Failed to add new variants");
+    }
+}
