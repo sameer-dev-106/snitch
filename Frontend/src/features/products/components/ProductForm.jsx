@@ -55,9 +55,9 @@ const ProductForm = ({
           <PriceField
             props={{
               label: "Price",
-              amountName: "price",
+              amountName: "priceAmount",
               amountValue: formData.price,
-              currencyName: "currency",
+              currencyName: "priceCurrency",
               currencyValue: formData.currency,
               handleChange,
             }}
