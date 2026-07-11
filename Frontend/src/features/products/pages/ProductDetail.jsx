@@ -1,26 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router";
 import { useProduct } from "../hook/useProduct";
 
 const ProductDetail = () => {
   const { productId } = useParams();
-
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
-
-  const { handleGetProductById } = useProduct();
+  const [selectedAttributes, setSelectedAttributes] = useState({});
+  const [hasSelectedVariant, setHasSelectedVariant] = useState(false);
   const navigate = useNavigate();
+  const { handleGetProductById } = useProduct();
 
   useEffect(() => {
     let isMounted = true;
 
     const fetchProductDetails = async () => {
-      if (!productId) return;
       try {
         const data = await handleGetProductById(productId);
-        const prod = data?.product || data;
-        if (!isMounted) return;
-        setProduct(prod);
+        if (isMounted) {
+          setProduct(data?.product || data);
+        }
       } catch (error) {
         console.error("Failed to fetch product details", error);
       }
@@ -31,8 +30,95 @@ const ProductDetail = () => {
     return () => {
       isMounted = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
+
+  useEffect(() => {
+    setSelectedAttributes({});
+    setHasSelectedVariant(false);
+  }, [productId]);
+
+  const activeVariant = useMemo(() => {
+    if (!hasSelectedVariant) return null;
+    if (!product?.variants || product.variants.length === 0) return null;
+    return product.variants.find((v) => {
+      if (!v.attributes) return false;
+      const vKeys = Object.keys(v.attributes);
+      const sKeys = Object.keys(selectedAttributes);
+      const isMatch = vKeys.every(
+        (k) => v.attributes[k] === selectedAttributes[k],
+      );
+      return vKeys.length === sKeys.length && isMatch;
+    });
+  }, [hasSelectedVariant, product, selectedAttributes]);
+
+  const availableAttributes = useMemo(() => {
+    if (!product?.variants) return {};
+    const attrs = {};
+    product.variants.forEach((variant) => {
+      if (variant.attributes) {
+        Object.entries(variant.attributes).forEach(([key, value]) => {
+          if (!attrs[key]) attrs[key] = new Set();
+          attrs[key].add(value);
+        });
+      }
+    });
+    Object.keys(attrs).forEach((key) => {
+      attrs[key] = Array.from(attrs[key]);
+    });
+    return attrs;
+  }, [product]);
+
+  useEffect(() => {
+    setSelectedImage(0);
+  }, [activeVariant]);
+
+  const handleAttributeChange = (attrName, value) => {
+    if (hasSelectedVariant && selectedAttributes[attrName] === value) {
+      resetToOriginal();
+      return;
+    }
+
+    setHasSelectedVariant(true);
+
+    const newAttrs = { ...selectedAttributes, [attrName]: value };
+
+    const exactMatch = product.variants.find((v) => {
+      const vAttrs = v.attributes || {};
+      return (
+        Object.keys(newAttrs).every((k) => newAttrs[k] === vAttrs[k]) &&
+        Object.keys(vAttrs).every((k) => newAttrs[k] === vAttrs[k])
+      );
+    });
+
+    if (exactMatch) {
+      setSelectedAttributes(exactMatch.attributes);
+    } else {
+      const fallbackVariant = product.variants.find(
+        (v) => v.attributes && v.attributes[attrName] === value,
+      );
+      if (fallbackVariant) {
+        setSelectedAttributes(fallbackVariant.attributes);
+      } else {
+        setSelectedAttributes(newAttrs);
+      }
+    }
+  };
+
+  const resetToOriginal = () => {
+    setSelectedAttributes({});
+    setHasSelectedVariant(false);
+  };
+
+  const displayImages = useMemo(() => {
+    if (hasSelectedVariant && activeVariant?.images?.length > 0) {
+      return activeVariant.images;
+    }
+    if (product?.images?.length > 0) {
+      return product.images;
+    }
+    return [{ url: "/snitch_editorial_warm.png" }];
+  }, [product, activeVariant, hasSelectedVariant]);
 
   if (!product) {
     return (
@@ -50,10 +136,14 @@ const ProductDetail = () => {
     );
   }
 
-  const images =
-    product.images && product.images.length > 0
-      ? product.images
-      : [{ url: "/snitch_editorial_warm.png" }];
+  const displayDescription =
+    hasSelectedVariant && activeVariant?.description
+      ? activeVariant.description
+      : product.description;
+
+  const displayPrice = activeVariant?.price?.amount
+    ? activeVariant.price
+    : product.price;
 
   return (
     <>
@@ -64,7 +154,7 @@ const ProductDetail = () => {
       />
 
       <div
-        className="min-h-screen selection:bg-[#C9A96E]/30 pb-24 no-scrollbar"
+        className="min-h-screen selection:bg-[#C9A96E]/30 pb-24"
         style={{
           backgroundColor: "#fbf9f6",
           fontFamily: "'Inter', sans-serif",
@@ -99,9 +189,9 @@ const ProductDetail = () => {
             {/* ── LEFT: Image Gallery ── */}
             <div className="w-full lg:w-[70%] flex flex-col-reverse md:flex-row gap-4 lg:gap-6">
               {/* Thumbnails (Vertical on Desktop, Horizontal on Mobile) */}
-              {images.length > 1 && (
+              {displayImages.length > 1 && (
                 <div className="flex flex-row md:flex-col gap-4 overflow-x-auto md:overflow-y-auto pb-2 md:pb-0 scrollbar-hide w-full md:w-20 lg:w-24 shrink-0 md:max-h-[calc(100vh-200px)]">
-                  {images.map((img, idx) => (
+                  {displayImages.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
@@ -127,16 +217,18 @@ const ProductDetail = () => {
                 style={{ backgroundColor: "#f5f3f0" }}
               >
                 <img
-                  src={images[selectedImage]?.url || images[0].url}
+                  src={
+                    displayImages[selectedImage]?.url || displayImages[0].url
+                  }
                   alt={product.title}
                   className="w-full h-full object-cover transition-opacity duration-500"
                 />
-                {images.length > 1 && (
+                {displayImages.length > 1 && (
                   <>
                     <button
                       onClick={() =>
                         setSelectedImage((prev) =>
-                          prev === 0 ? images.length - 1 : prev - 1,
+                          prev === 0 ? displayImages.length - 1 : prev - 1,
                         )
                       }
                       className="absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 border"
@@ -171,7 +263,7 @@ const ProductDetail = () => {
                     <button
                       onClick={() =>
                         setSelectedImage((prev) =>
-                          prev === images.length - 1 ? 0 : prev + 1,
+                          prev === displayImages.length - 1 ? 0 : prev + 1,
                         )
                       }
                       className="absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 border"
@@ -225,8 +317,8 @@ const ProductDetail = () => {
                   className="text-sm uppercase tracking-[0.2em] font-medium"
                   style={{ color: "#1b1c1a" }}
                 >
-                  {product.price?.currency}{" "}
-                  {product.price?.amount?.toLocaleString()}
+                  {displayPrice?.currency}{" "}
+                  {displayPrice?.amount?.toLocaleString()}
                 </span>
               </div>
 
@@ -234,6 +326,59 @@ const ProductDetail = () => {
                 className="h-px w-full mb-8"
                 style={{ backgroundColor: "#e4e2df" }}
               />
+
+              {/* Reset to original — only visible once a variant has been picked */}
+              {hasSelectedVariant && (
+                <button
+                  onClick={resetToOriginal}
+                  className="mb-6 text-[10px] uppercase tracking-[0.2em] font-medium underline transition-colors hover:text-[#C9A96E] self-start"
+                  style={{ color: "#7A6E63" }}
+                >
+                  Show Original
+                </button>
+              )}
+
+              {/* Options/Variants */}
+              {Object.entries(availableAttributes).map(([attrName, values]) => (
+                <div key={attrName} className="mb-6">
+                  <h3
+                    className="text-[10px] uppercase tracking-[0.24em] font-medium mb-3"
+                    style={{ color: "#C9A96E" }}
+                  >
+                    {attrName}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {values.map((val) => {
+                      const isSelected = selectedAttributes[attrName] === val;
+                      return (
+                        <button
+                          key={val}
+                          onClick={() => handleAttributeChange(attrName, val)}
+                          className={`px-4 py-2 text-[11px] uppercase tracking-[0.15em] font-medium transition-all duration-300 border ${isSelected ? "border-[#1b1c1a] bg-[#1b1c1a] text-[#fbf9f6]" : "border-[#d0c5b5] text-[#1b1c1a] hover:border-[#1b1c1a]"}`}
+                          style={
+                            isSelected ? {} : { backgroundColor: "transparent" }
+                          }
+                        >
+                          {val}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+
+              {/* Stock Information */}
+              {activeVariant && activeVariant.stock !== undefined && (
+                <div className="mb-6">
+                  <span
+                    className={`text-[10px] uppercase tracking-[0.2em] font-medium ${activeVariant.stock > 0 ? "text-green-700" : "text-red-700"}`}
+                  >
+                    {activeVariant.stock > 0
+                      ? `${activeVariant.stock} in stock`
+                      : "Out of stock"}
+                  </span>
+                </div>
+              )}
 
               <div className="mb-12">
                 <h3
@@ -246,7 +391,7 @@ const ProductDetail = () => {
                   className="text-sm leading-relaxed"
                   style={{ color: "#7A6E63" }}
                 >
-                  {product.description}
+                  {displayDescription}
                 </p>
               </div>
 
