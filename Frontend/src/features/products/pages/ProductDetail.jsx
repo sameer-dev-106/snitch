@@ -30,12 +30,16 @@ const ProductDetail = () => {
     return () => {
       isMounted = false;
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
   useEffect(() => {
-    setSelectedAttributes({});
-    setHasSelectedVariant(false);
+    // update state asynchronously to avoid synchronous setState inside effect
+    const t = setTimeout(() => {
+      setSelectedAttributes({});
+      setHasSelectedVariant(false);
+    }, 0);
+    return () => clearTimeout(t);
   }, [productId]);
 
   const activeVariant = useMemo(() => {
@@ -70,7 +74,9 @@ const ProductDetail = () => {
   }, [product]);
 
   useEffect(() => {
-    setSelectedImage(0);
+    // update state asynchronously to avoid synchronous setState inside effect
+    const t = setTimeout(() => setSelectedImage(0), 0);
+    return () => clearTimeout(t);
   }, [activeVariant]);
 
   const handleAttributeChange = (attrName, value) => {
