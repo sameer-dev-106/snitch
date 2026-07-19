@@ -12,9 +12,17 @@ const handleApiError = (err, fallbackMessage) => {
 export const addItemApi = async ({ productId, variantId }) => {
     try {
         const response = await API.post(`/add/${productId}/${variantId}`);
-        return response.data;
+        return response?.data;
     } catch (err) {
         handleApiError(err, "Failed to add items in cart")
     }
 }
 
+export const getCartApi = async () => {
+    try {
+        const response = await API.get("/");
+        return response?.data
+    } catch (err) {
+        handleApiError(err, "Failed to fetch items in cart")
+    }
+}
