@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
-import { addItem, setError } from "../state/cart.slice";
-import { addItemApi } from "../service/cart.api";
+import { addItem, setError, setItems } from "../state/cart.slice";
+import { addItemApi, getCartApi } from "../service/cart.api";
 
 export const useCart = () => {
     const dispatch = useDispatch();
@@ -12,10 +12,22 @@ export const useCart = () => {
             if (item) dispatch(addItem(item));
             return { success: true, item }
         } catch (err) {
-            dispatch(setError(err?.message || "Error creating product"));
+            dispatch(setError(err?.message || ""));
             return { success: false, error: err };
         }
     }
 
-    return { handleAddItem };
+    const handleGetCart = async () => {
+        try {
+            const data = await getCartApi();
+            const items = data?.cart?.items
+            if (items) dispatch(setItems(items));
+            return { success: true, items }
+        } catch (err) {
+            dispatch(setError(err?.message || ""));
+            return { success: false, error: err }
+        }
+    }
+
+    return { handleAddItem, handleGetCart };
 };
