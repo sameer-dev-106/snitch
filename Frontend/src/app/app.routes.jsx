@@ -7,6 +7,7 @@ import Dashboard from "../features/products/pages/Dashboard";
 import Home from "../features/products/pages/Home";
 import ProductDetail from "../features/products/pages/ProductDetail";
 import SellerProductDetail from "../features/products/pages/SellerProductDetail";
+import Cart from "../features/cart/pages/Cart";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,14 @@ const router = createBrowserRouter([
   {
     path: "/product/:productId",
     element: <ProductDetail />,
+  },
+  {
+    path: "/cart",
+    element: (
+      <Protected>
+        <Cart />
+      </Protected>
+    ),
   },
   {
     path: "/seller",
