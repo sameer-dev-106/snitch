@@ -14,15 +14,15 @@ export const addItemApi = async ({ productId, variantId }) => {
         const response = await API.post(`/add/${productId}/${variantId}`, { quantity: 1 });  
         return response?.data;
     } catch (err) {
-        handleApiError(err, "Failed to add items in cart")
+        handleApiError(err, "Failed to add items in cart");
     }
 }
 
 export const getCartApi = async () => {
     try {
         const response = await API.get("/");
-        return response?.data
+        return response?.data;
     } catch (err) {
-        handleApiError(err, "Failed to fetch items in cart")
+        handleApiError(err, "Failed to fetch items in cart");
     }
 }
