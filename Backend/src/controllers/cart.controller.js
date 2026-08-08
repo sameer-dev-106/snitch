@@ -11,7 +11,7 @@ export const addToCart = async (req, res, next) => {
             return res.status(404).json({ message: "Product or variant not found", success: false });
         }
         const stock = await stockOfVariant(productId, variantId);
-        let cart = await cartModel.findOne({ user: req.user._id })
+        let cart = await cartModel.findOne({ user: req.user._id });
         if (!cart) {
             cart = await cartModel.create({ user: req.user._id });
         }
@@ -49,6 +49,6 @@ export const getCart = async (req, res, next) => {
         }
         return res.status(200).json({ message: "Cart fetched successfully", success: true, cart });
     } catch (err) {
-        next(err)
+        next(err);
     }
 }
