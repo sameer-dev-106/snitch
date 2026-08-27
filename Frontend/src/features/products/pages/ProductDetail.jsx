@@ -54,6 +54,7 @@ const ProductDetail = () => {
       setSelectedImage(0);
     }, 0);
     return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
   const activeVariant = useMemo(() => {
@@ -180,10 +181,13 @@ const ProductDetail = () => {
     return (
       <div
         className="min-h-screen flex items-center justify-center selection:bg-[#C9A96E]/30"
-        style={{ backgroundColor: "#fbf9f6" }}
+        style={{ backgroundColor: "var(--color-bg)" }}
       >
         <p
-          style={{ fontFamily: "'Inter', sans-serif", color: "#B5ADA3" }}
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            color: "var(--color-muted-light)",
+          }}
           className="text-[10px] uppercase tracking-[0.2em] font-medium animate-pulse"
         >
           Retrieving piece...
@@ -220,7 +224,7 @@ const ProductDetail = () => {
       <div
         className="min-h-screen selection:bg-[#C9A96E]/30 pb-24"
         style={{
-          backgroundColor: "#fbf9f6",
+          backgroundColor: "var(--color-bg)",
           fontFamily: "'Inter', sans-serif",
         }}
       >
@@ -237,8 +241,8 @@ const ProductDetail = () => {
                       onClick={() => setSelectedImage(idx)}
                       className={`shrink-0 w-20 md:w-full aspect-4/5 overflow-hidden transition-all duration-300 ${selectedImage === idx ? "opacity-100 ring-1 ring-[#C9A96E] ring-offset-2" : "opacity-50 hover:opacity-100"}`}
                       style={{
-                        backgroundColor: "#f5f3f0",
-                        "--tw-ring-offset-color": "#fbf9f6",
+                        backgroundColor: "var(--color-surface-low)",
+                        "--tw-ring-offset-color": "var(--color-bg)",
                       }}
                     >
                       <img
@@ -254,7 +258,7 @@ const ProductDetail = () => {
               {/* Main Image */}
               <div
                 className="relative w-full aspect-4/5 overflow-hidden group"
-                style={{ backgroundColor: "#f5f3f0" }}
+                style={{ backgroundColor: "var(--color-surface-low)" }}
               >
                 <img
                   src={
@@ -273,16 +277,18 @@ const ProductDetail = () => {
                       }
                       className="absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 border"
                       style={{
-                        backgroundColor: "rgba(251,249,246,0.8)",
-                        borderColor: "#e4e2df",
-                        color: "#1b1c1a",
+                        backgroundColor:
+                          "color-mix(in srgb, var(--color-bg) 80%, transparent)",
+                        borderColor: "var(--color-surface-highest)",
+                        color: "var(--color-text)",
                       }}
                       onMouseEnter={(e) =>
-                        (e.currentTarget.style.backgroundColor = "#fbf9f6")
+                        (e.currentTarget.style.backgroundColor =
+                          "var(--color-bg)")
                       }
                       onMouseLeave={(e) =>
                         (e.currentTarget.style.backgroundColor =
-                          "rgba(251,249,246,0.8)")
+                          "color-mix(in srgb, var(--color-bg) 80%, transparent)")
                       }
                       aria-label="Previous image"
                     >
@@ -308,16 +314,18 @@ const ProductDetail = () => {
                       }
                       className="absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 border"
                       style={{
-                        backgroundColor: "rgba(251,249,246,0.8)",
-                        borderColor: "#e4e2df",
-                        color: "#1b1c1a",
+                        backgroundColor:
+                          "color-mix(in srgb, var(--color-bg) 80%, transparent)",
+                        borderColor: "var(--color-surface-highest)",
+                        color: "var(--color-text)",
                       }}
                       onMouseEnter={(e) =>
-                        (e.currentTarget.style.backgroundColor = "#fbf9f6")
+                        (e.currentTarget.style.backgroundColor =
+                          "var(--color-bg)")
                       }
                       onMouseLeave={(e) =>
                         (e.currentTarget.style.backgroundColor =
-                          "rgba(251,249,246,0.8)")
+                          "color-mix(in srgb, var(--color-bg) 80%, transparent)")
                       }
                       aria-label="Next image"
                     >
@@ -346,7 +354,7 @@ const ProductDetail = () => {
                 className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.05] mb-6"
                 style={{
                   fontFamily: "'Cormorant Garamond', serif",
-                  color: "#1b1c1a",
+                  color: "var(--color-text)",
                 }}
               >
                 {product.title}
@@ -355,7 +363,7 @@ const ProductDetail = () => {
               <div className="mb-8">
                 <span
                   className="text-sm uppercase tracking-[0.2em] font-medium"
-                  style={{ color: "#1b1c1a" }}
+                  style={{ color: "var(--color-text)" }}
                 >
                   {displayPrice?.currency}{" "}
                   {displayPrice?.amount?.toLocaleString()}
@@ -364,15 +372,26 @@ const ProductDetail = () => {
 
               <div
                 className="h-px w-full mb-8"
-                style={{ backgroundColor: "#e4e2df" }}
+                style={{ backgroundColor: "var(--color-surface-highest)" }}
               />
+
+              {/* Reset to original — only visible once a variant has been picked */}
+              {hasSelectedVariant && (
+                <button
+                  onClick={resetToOriginal}
+                  className="mb-6 text-[10px] uppercase tracking-[0.2em] font-medium underline transition-colors hover:text-[#C9A96E] self-start"
+                  style={{ color: "var(--color-muted)" }}
+                >
+                  Show Original
+                </button>
+              )}
 
               {/* Options/Variants */}
               {Object.entries(availableAttributes).map(([attrName, values]) => (
                 <div key={attrName} className="mb-6">
                   <h3
                     className="text-[10px] uppercase tracking-[0.24em] font-medium mb-3"
-                    style={{ color: "#C9A96E" }}
+                    style={{ color: "var(--color-accent)" }}
                   >
                     {attrName}
                   </h3>
@@ -383,7 +402,7 @@ const ProductDetail = () => {
                         <button
                           key={val}
                           onClick={() => handleAttributeChange(attrName, val)}
-                          className={`px-4 py-2 text-[11px] uppercase tracking-[0.15em] font-medium transition-all duration-300 border ${isSelected ? "border-[#1b1c1a] bg-[#1b1c1a] text-[#fbf9f6]" : "border-[#d0c5b5] text-[#1b1c1a] hover:border-[#1b1c1a]"}`}
+                          className={`px-4 py-2 text-[11px] uppercase tracking-[0.15em] font-medium transition-all duration-300 border ${isSelected ? "border-[var(--color-text)] bg-[var(--color-text)] text-[var(--color-bg)]" : "border-[var(--color-outline-variant)] text-[var(--color-text)] hover:border-[var(--color-text)]"}`}
                           style={
                             isSelected ? {} : { backgroundColor: "transparent" }
                           }
@@ -412,13 +431,13 @@ const ProductDetail = () => {
               <div className="mb-12">
                 <h3
                   className="text-[10px] uppercase tracking-[0.24em] font-medium mb-4"
-                  style={{ color: "#C9A96E" }}
+                  style={{ color: "var(--color-accent)" }}
                 >
                   The Details
                 </h3>
                 <p
                   className="text-sm leading-relaxed"
-                  style={{ color: "#7A6E63" }}
+                  style={{ color: "var(--color-muted)" }}
                 >
                   {displayDescription}
                 </p>
@@ -430,18 +449,19 @@ const ProductDetail = () => {
                   className="w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
                   disabled={hasVariants && !activeVariant}
                   style={{
-                    backgroundColor: "#1b1c1a",
-                    color: "#fbf9f6",
+                    backgroundColor: "var(--color-text)",
+                    color: "var(--color-bg)",
                     fontFamily: "'Inter', sans-serif",
                   }}
                   onMouseEnter={(e) => {
                     if (hasVariants && !activeVariant) return;
-                    e.currentTarget.style.backgroundColor = "#C9A96E";
-                    e.currentTarget.style.color = "#1b1c1a";
+                    e.currentTarget.style.backgroundColor =
+                      "var(--color-accent)";
+                    e.currentTarget.style.color = "var(--color-text)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "#1b1c1a";
-                    e.currentTarget.style.color = "#fbf9f6";
+                    e.currentTarget.style.backgroundColor = "var(--color-text)";
+                    e.currentTarget.style.color = "var(--color-bg)";
                   }}
                   onClick={handleAddToCart}
                 >
@@ -454,15 +474,16 @@ const ProductDetail = () => {
                   className="w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-all duration-300 border"
                   style={{
                     backgroundColor: "transparent",
-                    borderColor: "#d0c5b5",
-                    color: "#1b1c1a",
+                    borderColor: "var(--color-outline-variant)",
+                    color: "var(--color-text)",
                     fontFamily: "'Inter', sans-serif",
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "#C9A96E";
+                    e.currentTarget.style.borderColor = "var(--color-accent)";
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = "#d0c5b5";
+                    e.currentTarget.style.borderColor =
+                      "var(--color-outline-variant)";
                   }}
                 >
                   Buy Now
@@ -472,25 +493,25 @@ const ProductDetail = () => {
               {/* Extra elegant details */}
               <div
                 className="mt-14 space-y-4 text-[10px] uppercase tracking-widest"
-                style={{ color: "#B5ADA3" }}
+                style={{ color: "var(--color-muted-light)" }}
               >
                 <div
                   className="flex justify-between border-b pb-3"
-                  style={{ borderColor: "#e4e2df" }}
+                  style={{ borderColor: "var(--color-surface-highest)" }}
                 >
                   <span>Shipping</span>
                   <span>Complimentary over INR 15,000</span>
                 </div>
                 <div
                   className="flex justify-between border-b pb-3"
-                  style={{ borderColor: "#e4e2df" }}
+                  style={{ borderColor: "var(--color-surface-highest)" }}
                 >
                   <span>Returns</span>
                   <span>Within 14 days of delivery</span>
                 </div>
                 <div
                   className="flex justify-between border-b pb-3"
-                  style={{ borderColor: "#e4e2df" }}
+                  style={{ borderColor: "var(--color-surface-highest)" }}
                 >
                   <span>Authenticity</span>
                   <span>100% Guaranteed</span>
