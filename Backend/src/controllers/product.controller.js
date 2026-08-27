@@ -3,7 +3,7 @@ import { uploadFile } from "../services/storage.service.js";
 
 export const createProduct = async (req, res, next) => {
     try {
-        const { title, description, priceAmount, priceCurrency } = req.body;
+        const { title, description, priceAmount, priceCurrency, variants } = req.body;
         const seller = req.user;
         const images = await Promise.all(req.files.map(async (file) => {
             return await uploadFile({
@@ -11,11 +11,22 @@ export const createProduct = async (req, res, next) => {
                 fileName: file.originalname
             });
         }));
+
+        // variants come in as a JSON string over multipart/form-data
+        // (already validated as non-empty by createProductValidator)
+        const parsedVariants = JSON.parse(variants).map((v) => ({
+            attributes: v.attributes,
+            stock: Number(v.stock) || 0,
+            // no separate images at creation time -> falls back to product images (handled on frontend)
+            images: [],
+        }));
+
         const product = await productModel.create({
             title,
             description,
             price: { amount: priceAmount, currency: priceCurrency || "INR" },
             images,
+            variants: parsedVariants,
             seller: seller._id
         });
         return res.status(201).json({ message: "Product create successfully", success: true, product });
