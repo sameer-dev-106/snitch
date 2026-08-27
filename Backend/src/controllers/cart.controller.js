@@ -17,7 +17,7 @@ export const addToCart = async (req, res, next) => {
         }
         const isProductAlreadyInCart = cart.items.some(item => item.product.toString() === productId && item.variant.toString() === variantId);
         if (isProductAlreadyInCart) {
-            const quantityInCart = cart.items.find(item => item.product.toString() === productId && item.variant?.toString() === variantId()).quantity;
+            const quantityInCart = cart.items.find(item => item.product.toString() === productId && item.variant?.toString() === variantId).quantity;
             if (quantityInCart + quantity > stock) {
                 return res.status(400).json({
                     message: `Only ${stock} items left in stock. and you already have ${quantityInCart} items in your cart`,
