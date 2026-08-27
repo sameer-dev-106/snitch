@@ -54,7 +54,6 @@ const ProductDetail = () => {
       setSelectedImage(0);
     }, 0);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
 
   const activeVariant = useMemo(() => {
@@ -402,7 +401,7 @@ const ProductDetail = () => {
                         <button
                           key={val}
                           onClick={() => handleAttributeChange(attrName, val)}
-                          className={`px-4 py-2 text-[11px] uppercase tracking-[0.15em] font-medium transition-all duration-300 border ${isSelected ? "border-[var(--color-text)] bg-[var(--color-text)] text-[var(--color-bg)]" : "border-[var(--color-outline-variant)] text-[var(--color-text)] hover:border-[var(--color-text)]"}`}
+                          className={`px-4 py-2 text-[11px] uppercase tracking-[0.15em] font-medium transition-all duration-300 border ${isSelected ? "border-(--color-text) bg-(--color-text) text-(--color-bg)" : "border-(--color-outline-variant) text-(--color-text) hover:border-(--color-text)"}`}
                           style={
                             isSelected ? {} : { backgroundColor: "transparent" }
                           }
