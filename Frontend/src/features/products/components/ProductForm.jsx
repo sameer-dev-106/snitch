@@ -18,6 +18,7 @@ const ProductForm = ({
   fileInputRef,
   isDragging,
   removeImage,
+  children,
 }) => {
   const inputClass =
     "w-full bg-transparent outline-none py-4 text-sm transition-colors duration-300 placeholder:text-(--color-muted)";
@@ -77,6 +78,8 @@ const ProductForm = ({
           removeImage={removeImage}
         />
       </div>
+
+      {children}
 
       {/* ── Submit Button ── */}
       <div className="mt-16 lg:mt-20">
