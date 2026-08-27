@@ -31,7 +31,15 @@ body::-webkit-scrollbar {
   --color-text: #1b1c1a;
   --color-border: #978770;
   --color-muted: #7A6E63;
+  --color-muted-light: #B5ADA3;
   --color-accent: #C9A96E;
+  --color-accent-dark: #745a27;
+  --color-surface-low: #f5f3f0;
+  --color-surface-lowest: #ffffff;
+  --color-surface-high: #eae8e5;
+  --color-surface-highest: #e4e2df;
+  --color-outline: #7f7668;
+  --color-outline-variant: #d0c5b5;
 }
 
 .dark {
@@ -39,5 +47,13 @@ body::-webkit-scrollbar {
   --color-text: #f0ede8;
   --color-border: #ceb898;
   --color-muted: #8a8278;
+  --color-muted-light: #6b6560;
   --color-accent: #C9A96E;
+  --color-accent-dark: #e0c088;
+  --color-surface-low: #1a1a1a;
+  --color-surface-lowest: #161616;
+  --color-surface-high: #202020;
+  --color-surface-highest: #2a2a2a;
+  --color-outline: #6b6255;
+  --color-outline-variant: #4a4238;
 }
