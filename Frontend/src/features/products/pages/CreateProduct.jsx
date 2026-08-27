@@ -3,6 +3,9 @@ import { useNavigate } from "react-router";
 import { useProduct } from "../hook/useProduct";
 import TopBar from "../components/TopBar";
 import ProductForm from "../components/ProductForm";
+import AttributeInput from "../components/AttributeInput";
+import StockField from "../components/StockField";
+import Toast from "../../../shared/Toast";
 
 const MAX_IMAGES = 7;
 
@@ -19,7 +22,34 @@ const CreateProduct = () => {
   const [images, setImages] = useState([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toast, setToast] = useState(null);
   const fileInputRef = useRef(null);
+
+  // ── First variant (mandatory) — a product with zero variants can't be
+  // bought by anyone, so we collect at least one right here at creation time.
+  const [attributeInputs, setAttributeInputs] = useState([
+    { key: "", value: "" },
+  ]);
+  const [variant, setVariant] = useState({
+    stock: 0,
+    price: { amount: "", currency: "INR" },
+  });
+
+  const handleAddAttribute = () => {
+    setAttributeInputs((prev) => [...prev, { key: "", value: "" }]);
+  };
+
+  const handleAttributeChange = (index, field, value) => {
+    setAttributeInputs((prev) => {
+      const updated = [...prev];
+      updated[index] = { ...updated[index], [field]: value };
+      return updated;
+    });
+  };
+
+  const handleRemoveAttribute = (index) => {
+    setAttributeInputs((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,18 +99,52 @@ const CreateProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const hasValidAttribute = attributeInputs.some(
+      (attr) => attr.key.trim() && attr.value.trim(),
+    );
+    if (!hasValidAttribute) {
+      setToast({
+        message: "Add at least one attribute (e.g. Size: M) for this product",
+        type: "error",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     try {
+      const attributes = {};
+      attributeInputs.forEach((attr) => {
+        if (attr.key.trim()) attributes[attr.key.trim()] = attr.value.trim();
+      });
+
+      const variants = [
+        {
+          attributes,
+          stock: Number(variant.stock) || 0,
+        },
+      ];
+
       const data = new FormData();
       data.append("title", formData.title);
       data.append("description", formData.description);
       data.append("priceAmount", formData.priceAmount);
       data.append("priceCurrency", formData.priceCurrency);
+      data.append("variants", JSON.stringify(variants));
       images.forEach((img) => data.append("images", img.file));
-      await handleCreateProduct(data);
+
+      const result = await handleCreateProduct(data);
+      if (!result.success) {
+        setToast({
+          message: result.error || "Failed to create product",
+          type: "error",
+        });
+        return;
+      }
       navigate("/seller/dashboard");
     } catch (err) {
       console.error("Failed to create product", err);
+      setToast({ message: "Failed to create product", type: "error" });
     } finally {
       setIsSubmitting(false);
     }
@@ -138,9 +202,51 @@ const CreateProduct = () => {
             fileInputRef={fileInputRef}
             isDragging={isDragging}
             removeImage={removeImage}
-          />
+          >
+            {/* ── First Variant (mandatory) ── */}
+            <div
+              className="mt-16 lg:mt-20 pt-10 border-t"
+              style={{ borderColor: "var(--color-border)" }}
+            >
+              <h2
+                className="text-2xl font-light mb-1"
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  color: "var(--color-text)",
+                }}
+              >
+                Starting Variant
+              </h2>
+              <p
+                className="text-xs mb-8"
+                style={{ color: "var(--color-muted)" }}
+              >
+                Every listing needs at least one buyable option (e.g. Size: M).
+                You can add more sizes/colors later from the dashboard.
+              </p>
+              <div className="space-y-8 max-w-md">
+                <AttributeInput
+                  props={{
+                    attributeInputs,
+                    handleAddAttribute,
+                    handleRemoveAttribute,
+                    handleAttributeChange,
+                  }}
+                />
+                <StockField newVariant={variant} setNewVariant={setVariant} />
+              </div>
+            </div>
+          </ProductForm>
         </div>
       </div>
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </>
   );
 };
