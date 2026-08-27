@@ -1,7 +1,6 @@
 import "./App.css";
 import { RouterProvider } from "react-router";
 import router from "./app.routes";
-import ThemeToggle from "../shared/ThemeToggle";
 import { useAuth } from "../features/auth/hook/useAuth";
 import { useEffect } from "react";
 
@@ -10,14 +9,10 @@ const App = () => {
 
   useEffect(() => {
     handleGetMe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return (
-    <>
-      <ThemeToggle />
-      <RouterProvider router={router} />
-    </>
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;
