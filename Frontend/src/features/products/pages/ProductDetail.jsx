@@ -1,14 +1,19 @@
 import { useEffect, useState, useMemo } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
+import { useSelector } from "react-redux";
 import { useProduct } from "../hook/useProduct";
 import { useCart } from "../../cart/hook/useCart";
+import Toast from "../../../shared/Toast";
 
 const ProductDetail = () => {
   const { productId } = useParams();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedAttributes, setSelectedAttributes] = useState({});
   const [hasSelectedVariant, setHasSelectedVariant] = useState(false);
+  const [toast, setToast] = useState(null);
   const { handleGetProductById } = useProduct();
   const { handleAddItem } = useCart();
 
@@ -35,13 +40,21 @@ const ProductDetail = () => {
   }, [productId]);
 
   useEffect(() => {
-    // update state asynchronously to avoid synchronous setState inside effect
+    // every product now always has at least one variant (enforced at
+    // creation), so default-select the first one instead of making the
+    // user click before they can add to cart
     const t = setTimeout(() => {
-      setSelectedAttributes({});
-      setHasSelectedVariant(false);
+      if (product?.variants && product.variants.length > 0) {
+        setSelectedAttributes(product.variants[0].attributes || {});
+        setHasSelectedVariant(true);
+      } else {
+        setSelectedAttributes({});
+        setHasSelectedVariant(false);
+      }
+      setSelectedImage(0);
     }, 0);
     return () => clearTimeout(t);
-  }, [productId]);
+  }, [product]);
 
   const activeVariant = useMemo(() => {
     if (!hasSelectedVariant) return null;
@@ -117,6 +130,42 @@ const ProductDetail = () => {
     setHasSelectedVariant(false);
   };
 
+  // every product on Snitch is a clothing item -> variants (size/color) are mandatory
+  const hasVariants = product?.variants && product.variants.length > 0;
+
+  const handleAddToCart = async () => {
+    if (!activeVariant) {
+      setToast({
+        message: "Please select a size/color before adding to cart",
+        type: "error",
+      });
+      return;
+    }
+
+    if (!user) {
+      setToast({
+        message: "Please login to add items to cart",
+        type: "error",
+      });
+      navigate("/login");
+      return;
+    }
+
+    const result = await handleAddItem({
+      productId: product._id,
+      variantId: activeVariant._id,
+    });
+
+    if (result.success) {
+      setToast({ message: "Added to cart", type: "success" });
+    } else {
+      setToast({
+        message: result.error || "Failed to add to cart",
+        type: "error",
+      });
+    }
+  };
+
   const displayImages = useMemo(() => {
     if (hasSelectedVariant && activeVariant?.images?.length > 0) {
       return activeVariant.images;
@@ -159,6 +208,14 @@ const ProductDetail = () => {
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap"
         rel="stylesheet"
       />
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
 
       <div
         className="min-h-screen selection:bg-[#C9A96E]/30 pb-24"
@@ -310,17 +367,6 @@ const ProductDetail = () => {
                 style={{ backgroundColor: "#e4e2df" }}
               />
 
-              {/* Reset to original — only visible once a variant has been picked */}
-              {hasSelectedVariant && (
-                <button
-                  onClick={resetToOriginal}
-                  className="mb-6 text-[10px] uppercase tracking-[0.2em] font-medium underline transition-colors hover:text-[#C9A96E] self-start"
-                  style={{ color: "#7A6E63" }}
-                >
-                  Show Original
-                </button>
-              )}
-
               {/* Options/Variants */}
               {Object.entries(availableAttributes).map(([attrName, values]) => (
                 <div key={attrName} className="mb-6">
@@ -381,13 +427,15 @@ const ProductDetail = () => {
               {/* Actions */}
               <div className="flex flex-col gap-4 mt-auto">
                 <button
-                  className="w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-all duration-300"
+                  className="w-full py-4 text-[11px] uppercase tracking-[0.25em] font-medium transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
+                  disabled={hasVariants && !activeVariant}
                   style={{
                     backgroundColor: "#1b1c1a",
                     color: "#fbf9f6",
                     fontFamily: "'Inter', sans-serif",
                   }}
                   onMouseEnter={(e) => {
+                    if (hasVariants && !activeVariant) return;
                     e.currentTarget.style.backgroundColor = "#C9A96E";
                     e.currentTarget.style.color = "#1b1c1a";
                   }}
@@ -395,14 +443,11 @@ const ProductDetail = () => {
                     e.currentTarget.style.backgroundColor = "#1b1c1a";
                     e.currentTarget.style.color = "#fbf9f6";
                   }}
-                  onClick={() => {
-                    handleAddItem({
-                      productId: product._id,
-                      variantId: activeVariant._id,
-                    });
-                  }}
+                  onClick={handleAddToCart}
                 >
-                  Add to Cart
+                  {hasVariants && !activeVariant
+                    ? "Select a Variant"
+                    : "Add to Cart"}
                 </button>
 
                 <button
