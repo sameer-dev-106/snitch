@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router";
+import ThemeToggle from "./ThemeToggle";
 
 const Nav = () => {
   const user = useSelector((state) => state.auth.user);
@@ -8,7 +9,10 @@ const Nav = () => {
   return (
     <nav
       className="px-8 lg:px-16 xl:px-24 pt-10 pb-6 flex items-center justify-between border-b"
-      style={{ borderColor: "#e4e2df" }}
+      style={{
+        backgroundColor: "var(--color-bg)",
+        borderColor: "var(--color-surface-highest)",
+      }}
     >
       <Link
         to="/"
@@ -19,11 +23,12 @@ const Nav = () => {
       </Link>
       <div
         className="flex gap-6 items-center text-[10px] uppercase tracking-[0.2em] font-medium"
-        style={{ color: "#7A6E63" }}
+        style={{ color: "var(--color-muted)" }}
       >
+        
         {user ? (
           <>
-            <span style={{ color: "#1b1c1a" }}>{user.fullname}</span>
+            <span style={{ color: "var(--color-text)" }}>{user.fullname}</span>
             {user.role === "seller" && (
               <Link
                 to="/seller/dashboard"
@@ -35,7 +40,7 @@ const Nav = () => {
             <Link
               to="/cart"
               className="relative flex items-center hover:opacity-70 transition-opacity"
-              style={{ color: "#1b1c1a" }}
+              style={{ color: "var(--color-text)" }}
               aria-label="Shopping cart"
             >
               <svg
@@ -87,6 +92,7 @@ const Nav = () => {
             </Link>
           </>
         )}
+      <ThemeToggle />
       </div>
     </nav>
   );
