@@ -226,7 +226,7 @@ const SellerProductDetails = () => {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-[#7f7668]">
+                <div className="w-full h-full flex items-center justify-center text-(--color-outline)">
                   No Image
                 </div>
               )}
@@ -239,7 +239,7 @@ const SellerProductDetails = () => {
                     key={i}
                     src={img.url}
                     alt={`Thumb ${i}`}
-                    className="w-16 h-20 object-cover bg-[#f5f3f0] shrink-0"
+                    className="w-16 h-20 object-cover bg-(--color-surface-low) shrink-0"
                   />
                 ))}
               </div>
@@ -250,7 +250,7 @@ const SellerProductDetails = () => {
             <h2 className="font-serif text-4xl md:text-5xl leading-tight mb-4 uppercase">
               {product.title}
             </h2>
-            <p className="text-[#6e6258] text-lg mb-6 leading-relaxed max-w-md">
+            <p className="text-(--color-text-secondary) text-lg mb-6 leading-relaxed max-w-md">
               {product.description}
             </p>
             <div className="text-2xl tracking-wide font-light mb-8">
@@ -277,12 +277,12 @@ const SellerProductDetails = () => {
 
           {/* Add New Variant Form */}
           {isAddingVariant && (
-            <div className="bg-[#ffffff] p-6 md:p-8 mb-12 shadow-[0_20px_40px_rgba(27,28,26,0.04)]">
+            <div className="bg-(--color-surface-lowest) p-6 md:p-8 mb-12 shadow-[0_20px_40px_rgba(27,28,26,0.04)]">
               <div className="flex justify-between items-center mb-6">
                 <h4 className="font-serif text-xl uppercase">Create Variant</h4>
                 <button
                   onClick={() => setIsAddingVariant(false)}
-                  className="text-[#7f7668] hover:text-[#1b1c1a] text-sm uppercase tracking-wider cursor-pointer"
+                  className="text-(--color-outline) hover:text-(--color-text) text-sm uppercase tracking-wider cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -321,7 +321,7 @@ const SellerProductDetails = () => {
               <div className="mt-10 flex justify-end">
                 <button
                   onClick={handleAddNewVariant}
-                  className="bg-linear-to-r from-[#745a27] to-[#c9a96e] text-[#ffffff] px-8 py-3 uppercase tracking-wider text-sm hover:opacity-90 transition-opacity cursor-pointer"
+                  className="bg-linear-to-r from-[#745a27] to-[#c9a96e] text-(--color-surface-lowest) px-8 py-3 uppercase tracking-wider text-sm hover:opacity-90 transition-opacity cursor-pointer"
                 >
                   Save Variant
                 </button>
