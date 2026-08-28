@@ -5,19 +5,19 @@ import { Link, useNavigate } from "react-router";
 
 /* ─── Inline styles & tokens matching the "Avenue Montaigne" design system ─── */
 const tokens = {
-  surface: "#fbf9f6",
-  surfaceLow: "#f5f3f0",
-  surfaceLowest: "#ffffff",
-  surfaceHigh: "#eae8e5",
-  surfaceHighest: "#e4e2df",
-  onSurface: "#1b1c1a",
-  onSurfaceVariant: "#4d463a",
-  secondary: "#7A6E63",
-  muted: "#B5ADA3",
-  primary: "#C9A96E",
-  primaryDark: "#745a27",
-  outlineVariant: "#d0c5b5",
-  outline: "#7f7668",
+  surface: "var(--color-bg)",
+  surfaceLow: "var(--color-surface-low)",
+  surfaceLowest: "var(--color-surface-lowest)",
+  surfaceHigh: "var(--color-surface-high)",
+  surfaceHighest: "var(--color-surface-highest)",
+  onSurface: "var(--color-text)",
+  onSurfaceVariant: "var(--color-text)",
+  secondary: "var(--color-muted)",
+  muted: "var(--color-muted-light)",
+  primary: "var(--color-accent)",
+  primaryDark: "var(--color-accent-dark)",
+  outlineVariant: "var(--color-outline-variant)",
+  outline: "var(--color-outline)",
 };
 
 const Cart = () => {
@@ -30,7 +30,7 @@ const Cart = () => {
 
   useEffect(() => {
     handleGetCart();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* Sync local qty state when cartItems arrive */
