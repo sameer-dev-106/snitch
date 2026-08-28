@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import Form from "./Form";
 import Toast from "../../../shared/Toast";
 import { useSelector } from "react-redux";
+import ThemeToggle from "../../../shared/ThemeToggle";
 
 const headerContent = {
   register: {
@@ -115,6 +116,7 @@ const RightSide = ({ mode = "register" }) => {
           onClose={() => setToast(null)}
         />
       )}
+      <ThemeToggle />
       <div
         className="w-full lg:w-1/2 flex items-center justify-center min-h-screen px-8 sm:px-14 lg:px-20 py-5 md:py-8 overflow-y-auto"
         style={{ backgroundColor: "var(--color-bg)" }}
