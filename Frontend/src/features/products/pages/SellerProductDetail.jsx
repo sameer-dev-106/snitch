@@ -218,7 +218,7 @@ const SellerProductDetails = () => {
         <section className="flex flex-col md:flex-row gap-8 mb-16">
           <div className="w-full md:w-1/2">
             {/* Gallery placeholder */}
-            <div className="w-full aspect-4/5 bg-[#f5f3f0] overflow-hidden">
+            <div className="w-full aspect-4/5 bg-(--color-surface-low) overflow-hidden">
               {product.images && product.images.length > 0 ? (
                 <img
                   src={product.images[0].url}
