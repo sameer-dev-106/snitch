@@ -10,7 +10,7 @@ const Home = () => {
 
   useEffect(() => {
     handleGetAllProducts();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -24,7 +24,7 @@ const Home = () => {
       <div
         className="min-h-screen selection:bg-[#C9A96E]/30"
         style={{
-          backgroundColor: "#fbf9f6",
+          backgroundColor: "var(--color-bg)",
           fontFamily: "'Inter', sans-serif",
         }}
       >
@@ -33,7 +33,7 @@ const Home = () => {
           <div className="pt-20 pb-20 text-center flex flex-col items-center">
             <span
               className="text-[10px] uppercase tracking-[0.24em] font-medium mb-6"
-              style={{ color: "#C9A96E" }}
+              style={{ color: "var(--color-accent)" }}
             >
               The Collection
             </span>
@@ -41,14 +41,14 @@ const Home = () => {
               className="text-5xl lg:text-7xl font-light leading-tight mb-6"
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
-                color: "#1b1c1a",
+                color: "var(--color-text)",
               }}
             >
               Curated Archive
             </h1>
             <p
               className="max-w-xl mx-auto text-sm leading-relaxed"
-              style={{ color: "#7A6E63" }}
+              style={{ color: "var(--color-muted)" }}
             >
               Discover our latest curation of premium minimalist pieces,
               meticulously designed for effortless elegance and enduring
@@ -68,13 +68,13 @@ const Home = () => {
         {/* ── Footer ── */}
         <footer
           className="border-t py-12 text-center"
-          style={{ borderColor: "#e4e2df" }}
+          style={{ borderColor: "var(--color-surface-highest)" }}
         >
           <span
             className="text-[10px] uppercase tracking-[0.35em]"
             style={{
               fontFamily: "'Cormorant Garamond', serif",
-              color: "#C9A96E",
+              color: "var(--color-accent)",
             }}
           >
             Snitch. © {new Date().getFullYear()}
