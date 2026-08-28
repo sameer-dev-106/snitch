@@ -56,7 +56,7 @@ const SellerProductDetails = () => {
     return () => {
       isMounted = false;
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId]);
 
   // Handlers for modifying existing variant stock natively
@@ -183,7 +183,10 @@ const SellerProductDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#fbf9f6] flex items-center justify-center text-[#1b1c1a] font-serif">
+      <div
+        className="min-h-screen flex items-center justify-center text-(--color-text) font-serif"
+        style={{ backgroundColor: "var(--color-bg)" }}
+      >
         Loading gallery...
       </div>
     );
@@ -191,16 +194,19 @@ const SellerProductDetails = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-[#fbf9f6] flex items-center justify-center text-[#1b1c1a] font-serif">
+      <div
+        className="min-h-screen flex items-center justify-center text-(--color-text) font-serif"
+        style={{ backgroundColor: "var(--color-bg)" }}
+      >
         Product Not Found
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#fbf9f6] text-[#1b1c1a] font-sans selection:bg-[#C9A96E]/30 pb-24">
+    <div className="min-h-screen bg-(--color-bg) text-(--color-text) font-sans selection:bg-(--color-accent)/30 pb-24">
       {/* Top Banner / Header */}
-      <header className="sticky top-0 z-10 bg-[#fbf9f6]/80 backdrop-blur-md px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-10 bg-(--color-bg)/80 backdrop-blur-md px-6 py-4 flex items-center justify-between">
         <h1 className="font-serif text-xl tracking-wide uppercase">
           {product.title?.substring(0, 20)}
           {product.title?.length > 20 ? "..." : ""}
