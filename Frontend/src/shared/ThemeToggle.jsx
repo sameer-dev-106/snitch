@@ -1,3 +1,4 @@
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "./useTheme.jsx";
 
 const ThemeToggle = () => {
@@ -11,7 +12,7 @@ const ThemeToggle = () => {
       className="flex items-center justify-center w-8 h-8 rounded-full transition-opacity hover:opacity-70"
       style={{ color: "var(--color-text)" }}
     >
-      <span className="text-base leading-none">{isDark ? "🌙" : "☀️"}</span>
+      <span className="text-base leading-none">{isDark ? <Moon /> : <Sun />}</span>
     </button>
   );
 };
