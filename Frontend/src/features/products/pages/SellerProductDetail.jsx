@@ -260,7 +260,7 @@ const SellerProductDetails = () => {
         </section>
 
         {/* Variants & Inventory */}
-        <section className="bg-[#f5f3f0] p-6 md:p-12">
+        <section className="bg-(--color-surface-low) p-6 md:p-12">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
             <h3 className="font-serif text-3xl uppercase">
               Variants & Inventory
@@ -268,7 +268,7 @@ const SellerProductDetails = () => {
             {!isAddingVariant && (
               <button
                 onClick={() => setIsAddingVariant(true)}
-                className="bg-[#745a27] text-[#ffffff] px-6 py-3 uppercase tracking-wider text-sm hover:bg-[#5a4312] transition-colors flex items-center gap-2 cursor-pointer"
+                className="bg-(--color-accent-dark) text-(--color-surface-lowest) px-6 py-3 uppercase tracking-wider text-sm hover:bg-[#5a4312] transition-colors flex items-center gap-2 cursor-pointer"
               >
                 <PlusIcon /> Add New Variant
               </button>
