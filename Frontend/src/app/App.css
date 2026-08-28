@@ -29,6 +29,7 @@ body::-webkit-scrollbar {
 :root {
   --color-bg: #fbf9f6;
   --color-text: #1b1c1a;
+  --color-text-secondary: #6e6258;
   --color-border: #978770;
   --color-muted: #7A6E63;
   --color-muted-light: #B5ADA3;
@@ -45,6 +46,7 @@ body::-webkit-scrollbar {
 .dark {
   --color-bg: #0f0f0f;
   --color-text: #f0ede8;
+  --color-text-secondary: #bfb6ad;
   --color-border: #ceb898;
   --color-muted: #8a8278;
   --color-muted-light: #6b6560;
