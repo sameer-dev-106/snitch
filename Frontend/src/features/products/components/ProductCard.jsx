@@ -12,7 +12,7 @@ const ProductCard = ({ product, imageUrl, basePath = "/product" }) => {
       {/* Image Container */}
       <div
         className="aspect-4/5 overflow-hidden mb-6"
-        style={{ backgroundColor: "#f5f3f0" }}
+        style={{ backgroundColor: "var(--color-surface-low)" }}
       >
         <img
           src={imageUrl}
