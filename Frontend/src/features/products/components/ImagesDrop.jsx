@@ -101,7 +101,7 @@ const ImagesDrop = ({
             <div
               key={index}
               className="relative aspect-square overflow-hidden group"
-              style={{ backgroundColor: "#eae8e5" }}
+              style={{ backgroundColor: "var(--color-surface-high)" }}
             >
               <img
                 src={img.preview}
