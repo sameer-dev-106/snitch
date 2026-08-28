@@ -44,7 +44,7 @@ const LeftSide = ({ mode = "register" }) => {
   return (
     <div
       className="hidden lg:flex lg:w-1/2 relative overflow-hidden"
-      style={{ backgroundColor: "#f5f3f0" }}
+      style={{ backgroundColor: "var(--color-surface-low)" }}
     >
       <img
         src={src}
