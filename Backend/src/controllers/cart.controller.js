@@ -52,3 +52,18 @@ export const getCart = async (req, res, next) => {
         next(err);
     }
 }
+
+export const removeFromCart = async (req, res, next) => {
+    try {
+        const { productId, variantId} = req.params;
+        const cart = await cartModel.findOne({ user: req.user._id });
+        if (!cart) return res.status(404).json({ message: "Cart not found", success: false });
+        const itemIndex = cart.items.findIndex(item => item.product?.toString() === productId && item.variant?.toString() === variantId);
+        if (itemIndex === -1) return res.status(404).json({ message: "Product not found in cart", success: false });
+        cart.items.splice(itemIndex, 1);
+        await cart.save();
+        return res.status(200).json({ message: "Product removed from cart successfully", success: true });
+    } catch (err) {
+        next(err);
+    }
+}
