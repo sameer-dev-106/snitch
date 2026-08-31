@@ -28,6 +28,8 @@ const Cart = () => {
   /* Local quantity state — key: cartItem._id, value: number */
   const [quantities, setQuantities] = useState({});
 
+  const { handleRemoveItem } = useCart();
+
   useEffect(() => {
     handleGetCart();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -343,6 +345,16 @@ const Cart = () => {
                             id={`remove-${_id}`}
                             className="text-[10px] uppercase tracking-[0.22em] font-medium transition-all duration-200 hover:underline hover:opacity-70"
                             style={{ color: tokens.muted }}
+                            onClick={async () => {
+                              const result = await handleRemoveItem({
+                                productId: product._id,
+                                variantId: variantId,
+                              });
+                              if (result.success) {
+                                // Optionally, you can refetch the cart or update the state here
+                                await handleGetCart();
+                              }
+                            }}
                           >
                             Remove
                           </button>
