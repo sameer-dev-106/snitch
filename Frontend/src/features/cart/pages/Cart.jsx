@@ -24,6 +24,7 @@ const Cart = () => {
   const cartItems = useSelector((state) => state.cart.items);
   const { handleGetCart } = useCart();
   const navigate = useNavigate();
+  const [toast, setToast] = useState(null);
 
   /* Local quantity state — key: cartItem._id, value: number */
   const [quantities, setQuantities] = useState({});
