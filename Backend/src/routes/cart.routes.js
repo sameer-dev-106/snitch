@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authenticateUser } from "../middlewares/auth.middleware.js";
 import { validateAddToCart } from "../middlewares/cart.middleware.js";
-import { addToCart, getCart } from "../controllers/cart.controller.js";
+import { addToCart, getCart, removeFromCart } from "../controllers/cart.controller.js";
 
 const router = Router();
 
@@ -21,5 +21,14 @@ router.post("/add/:productId/:variantId", authenticateUser, validateAddToCart, a
  * @access Private
  */
 router.get("/", authenticateUser, getCart);
+
+/**
+ * @route DELETE /api/cart/remove/:productId/:variantId
+ * @desc Remove item from cart
+ * @access Private
+ * @argument productId - ID of the product to remove
+ * @argument variantId - ID of the variant to remove
+ */
+router.delete("/remove/:productId/:variantId", authenticateUser, removeFromCart);
 
 export default router;
