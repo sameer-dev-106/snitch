@@ -11,7 +11,7 @@ const handleApiError = (err, fallbackMessage) => {
 
 export const addItemApi = async ({ productId, variantId }) => {
     try {
-        const response = await API.post(`/add/${productId}/${variantId}`, { quantity: 1 });  
+        const response = await API.post(`/add/${productId}/${variantId}`, { quantity: 1 });
         return response?.data;
     } catch (err) {
         handleApiError(err, "Failed to add items in cart");
@@ -24,5 +24,14 @@ export const getCartApi = async () => {
         return response?.data;
     } catch (err) {
         handleApiError(err, "Failed to fetch items in cart");
+    }
+}
+
+export const removeItemApi = async ({ productId, variantId }) => {
+    try {
+        const response = await API.delete(`/remove/${productId}/${variantId}`);
+        return response?.data;
+    } catch (err) {
+        handleApiError(err, "Failed to remove item from cart");
     }
 }
