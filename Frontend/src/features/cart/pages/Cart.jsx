@@ -30,6 +30,18 @@ const Cart = () => {
 
   const { handleRemoveItem } = useCart();
 
+  // Handle remove item from cart
+  const handleRemove = async (product, variantId) => {
+    const result = await handleRemoveItem({
+      productId: product._id,
+      variantId: variantId,
+    });
+    if (result.success) {
+      // Optionally, you can refetch the cart or update the state here
+      await handleGetCart();
+    }
+  };
+
   useEffect(() => {
     handleGetCart();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -345,16 +357,7 @@ const Cart = () => {
                             id={`remove-${_id}`}
                             className="text-[10px] uppercase tracking-[0.22em] font-medium transition-all duration-200 hover:underline hover:opacity-70"
                             style={{ color: tokens.muted }}
-                            onClick={async () => {
-                              const result = await handleRemoveItem({
-                                productId: product._id,
-                                variantId: variantId,
-                              });
-                              if (result.success) {
-                                // Optionally, you can refetch the cart or update the state here
-                                await handleGetCart();
-                              }
-                            }}
+                            onClick={() => handleRemove(product, variantId)}
                           >
                             Remove
                           </button>
