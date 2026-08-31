@@ -38,12 +38,13 @@ const Cart = () => {
       productId: product._id,
       variantId: variantId,
     });
-    if (result.success) {
+    const { success, error } = result;
+    if (success) {
       await handleGetCart();
       setToast({ message: "Item removed from cart", type: "success" });
-    } else {
+    } else if (!success) {
       setToast({
-        message: result.error || "Failed to remove item from cart",
+        message: error || "Failed to remove item from cart",
         type: "error",
       });
     }
