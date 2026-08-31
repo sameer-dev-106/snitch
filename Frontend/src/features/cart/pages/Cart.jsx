@@ -38,8 +38,13 @@ const Cart = () => {
       variantId: variantId,
     });
     if (result.success) {
-      // Optionally, you can refetch the cart or update the state here
       await handleGetCart();
+      setToast({ message: "Item removed from cart", type: "success" });
+    } else {
+      setToast({
+        message: result.error || "Failed to remove item from cart",
+        type: "error",
+      });
     }
   };
 
@@ -108,7 +113,6 @@ const Cart = () => {
             fontFamily: "'Inter', sans-serif",
           }}
         >
-
           <div className="flex-1 flex flex-col items-center justify-center gap-6 pb-24 px-8">
             <p
               className="text-5xl md:text-6xl font-light leading-tight"
