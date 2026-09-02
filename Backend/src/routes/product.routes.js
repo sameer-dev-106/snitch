@@ -40,7 +40,7 @@ router.get("/", getAllProduct);
 router.get("/detail/:id", getProductDetails);
 
 /**
- * @route POST /api/products/productId/variants
+ * @route POST /api/products/:productId/variants
  * @description Add a new variant to a product
  * @access Private (Seller only)
  */
