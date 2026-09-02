@@ -22,7 +22,7 @@ router.post("/add/:productId/:variantId", validateAddToCart, addToCart);
  * @desc Get the current user's cart
  * @access Private
  */
-router.get("/", authenticateUser, getCart);
+router.get("/", getCart);
 
 /**
  * @route DELETE /api/cart/remove/:productId/:variantId
