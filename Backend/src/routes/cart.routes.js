@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { authenticateUser } from "../middlewares/auth.middleware.js";
-import { validateAddToCart } from "../middlewares/cart.middleware.js";
+import { validateAddToCart } from "../validation/cart.validator.js";
 import { addToCart, getCart, removeFromCart } from "../controllers/cart.controller.js";
 
 const router = Router();
