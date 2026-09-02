@@ -15,7 +15,7 @@ router.use(authenticateUser);
  * @argument variantId - ID of the variant to add
  * @argument quantity - Quantity of the item to add (optional, default is 1)
  */
-router.post("/add/:productId/:variantId", authenticateUser, validateAddToCart, addToCart);
+router.post("/add/:productId/:variantId", validateAddToCart, addToCart);
 
 /**
  * @route GET /api/cart
