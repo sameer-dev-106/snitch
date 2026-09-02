@@ -5,6 +5,7 @@ import { addToCart, getCart, incrementCartItemQuantity, removeFromCart } from ".
 
 const router = Router();
 
+// All routes in this file are protected and require authentication
 router.use(authenticateUser);
 
 /**
