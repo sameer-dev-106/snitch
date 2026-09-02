@@ -8,8 +8,7 @@ export const useCart = () => {
     const handleAddItem = async ({ productId, variantId }) => {
         try {
             await addItemApi({ productId, variantId });
-            // backend only returns {message, success} on add, not the item itself,
-            // so pull the fresh cart right after -> keeps nav badge/totals in sync
+            // After adding an item, fetch the updated cart data to update the state
             const cartData = await getCartApi();
             const items = cartData?.cart?.items;
             if (items) dispatch(setItems(items));
