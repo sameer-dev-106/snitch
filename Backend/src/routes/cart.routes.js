@@ -5,6 +5,8 @@ import { addToCart, getCart, removeFromCart } from "../controllers/cart.controll
 
 const router = Router();
 
+router.use(authenticateUser);
+
 /**
  * @route POST /api/cart/add/:productId/:variantId
  * @desc Add item to cart
