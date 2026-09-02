@@ -31,6 +31,6 @@ router.get("/", getCart);
  * @argument productId - ID of the product to remove
  * @argument variantId - ID of the variant to remove
  */
-router.delete("/remove/:productId/:variantId", authenticateUser, removeFromCart);
+router.delete("/remove/:productId/:variantId", removeFromCart);
 
 export default router;
