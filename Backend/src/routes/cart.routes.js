@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authenticateUser } from "../middlewares/auth.middleware.js";
 import { validateAddToCart, validateIncrementCartItemQuantity, } from "../validation/cart.validator.js";
-import { addToCart, getCart, removeFromCart } from "../controllers/cart.controller.js";
+import { addToCart, getCart, incrementCartItemQuantity, removeFromCart } from "../controllers/cart.controller.js";
 
 const router = Router();
 
@@ -31,7 +31,7 @@ router.get("/", getCart);
  * @argument productId - ID of the product
  * @argument variantId - ID of the variant
  */
-router.patch("/quantity/increment/:productId/:variantId", validateIncrementCartItemQuantity);
+router.patch("/quantity/increment/:productId/:variantId", validateIncrementCartItemQuantity, incrementCartItemQuantity);
 
 /**
  * @route DELETE /api/cart/remove/:productId/:variantId
