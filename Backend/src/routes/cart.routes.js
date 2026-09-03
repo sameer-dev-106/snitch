@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authenticateUser } from "../middlewares/auth.middleware.js";
-import { validateAddToCart, validateIncrementCartItemQuantity, } from "../validation/cart.validator.js";
-import { addToCart, getCart, incrementCartItemQuantity, removeFromCart } from "../controllers/cart.controller.js";
+import { validateAddToCart, validateDecrementCartItemQuantity, validateIncrementCartItemQuantity, } from "../validation/cart.validator.js";
+import { addToCart, getCart, incrementCartItemQuantity, decrementCartItemQuantity, removeFromCart } from "../controllers/cart.controller.js";
 
 const router = Router();
 
@@ -33,6 +33,15 @@ router.get("/", getCart);
  * @argument variantId - ID of the variant
  */
 router.patch("/quantity/increment/:productId/:variantId", validateIncrementCartItemQuantity, incrementCartItemQuantity);
+
+/**
+ * @route PATCH /api/cart/quantity/decrement/:productId/:variantId
+ * @description Decrement item quantity in cart by one
+ * @access Private
+ * @argument productId - ID of the product
+ * @argument variantId - ID of the variant
+ */
+router.patch("/quantity/decrement/:productId/:variantId", validateDecrementCartItemQuantity, decrementCartItemQuantity);
 
 /**
  * @route DELETE /api/cart/remove/:productId/:variantId
