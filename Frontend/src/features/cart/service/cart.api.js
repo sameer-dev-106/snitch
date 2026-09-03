@@ -27,6 +27,15 @@ export const getCartApi = async () => {
     }
 }
 
+export const incrementCartItemApi = async ({productId, variantId}) => {
+    try {
+        const response = await API.patch(`/quantity/increment/${productId}/${variantId}`);
+        return response?.data;
+    } catch (err) {
+        handleApiError(err, "Failed to increment item in cart");
+    }
+}
+
 export const removeItemApi = async ({ productId, variantId }) => {
     try {
         const response = await API.delete(`/remove/${productId}/${variantId}`);
