@@ -30,7 +30,20 @@ const Cart = () => {
   /* Local quantity state — key: cartItem._id, value: number */
   const [quantities, setQuantities] = useState({});
 
-  const { handleRemoveItem } = useCart();
+  const { handleRemoveItem, handleIncrementCartItem } = useCart();
+
+  const handleIncrement = async (product, varianId, id, delta) => {
+    const result = await handleIncrementCartItem({
+      productId: product._id,
+      variantId: varianId,
+    });
+    if (result.success) {
+      setQuantities((prev) => ({
+        ...prev,
+        [id]: Math.max(1, (prev[id] ?? 1) + delta),
+      }));
+    }
+  };
 
   // Handle remove item from cart
   const handleRemove = async (product, variantId) => {
@@ -332,7 +345,9 @@ const Cart = () => {
                             </span>
                             <button
                               id={`qty-inc-${_id}`}
-                              onClick={() => changeQty(_id, 1)}
+                              onClick={() =>
+                                handleIncrement(product, variantId, _id, 1)
+                              }
                               className="w-9 h-9 flex items-center justify-center text-sm font-light transition-colors hover:opacity-60"
                               style={{
                                 color: tokens.onSurface,
