@@ -30,10 +30,22 @@ const Cart = () => {
   /* Local quantity state — key: cartItem._id, value: number */
   const [quantities, setQuantities] = useState({});
 
-  const { handleRemoveItem, handleIncrementCartItem } = useCart();
+  const { handleRemoveItem, handleIncrementCartItem, handleDecrementCartItem } = useCart();
 
   const handleIncrement = async (product, varianId, id, delta) => {
     const result = await handleIncrementCartItem({
+      productId: product._id,
+      variantId: varianId,
+    });
+    if (result.success) {
+      setQuantities((prev) => ({
+        ...prev,
+        [id]: Math.max(1, (prev[id] ?? 1) + delta),
+      }));
+    }
+  };
+  const handleDecrement = async (product, varianId, id, delta) => {
+    const result = await handleDecrementCartItem({
       productId: product._id,
       variantId: varianId,
     });
@@ -327,7 +339,7 @@ const Cart = () => {
                           >
                             <button
                               id={`qty-dec-${_id}`}
-                              onClick={() => changeQty(_id, -1)}
+                              onClick={() => handleDecrement(product, variantId, _id, -1)}
                               className="w-9 h-9 flex items-center justify-center text-sm font-light transition-colors hover:opacity-60"
                               style={{
                                 color: tokens.onSurface,
