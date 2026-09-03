@@ -36,6 +36,15 @@ export const incrementCartItemApi = async ({productId, variantId}) => {
     }
 }
 
+export const decrementCartItemApi = async ({productId, variantId}) => {
+    try {
+        const response = await API.patch(`/quantity/decrement/${productId}/${variantId}`);
+        return response?.data;
+    } catch (err) {
+        handleApiError(err, "Failed to decrement item in cart");
+    }
+}
+
 export const removeItemApi = async ({ productId, variantId }) => {
     try {
         const response = await API.delete(`/remove/${productId}/${variantId}`);
