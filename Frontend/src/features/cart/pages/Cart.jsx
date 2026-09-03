@@ -91,13 +91,6 @@ const Cart = () => {
     }
   }, [cartItems]);
 
-  const changeQty = (id, delta) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [id]: Math.max(1, (prev[id] ?? 1) + delta),
-    }));
-  };
-
   /* ─── Derived totals ─── */
   const subtotal =
     cartItems?.reduce((sum, item) => {
