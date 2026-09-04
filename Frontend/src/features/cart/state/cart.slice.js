@@ -10,7 +10,7 @@ const cartSlice = createSlice({
         incrementCartItem: (state, action) => {
             const { productId, variantId } = action.payload;
             state.items = state.items.map(item => {
-                if (item.product_id === productId && item.variant === variantId) {
+                if (item.product._id === productId && item.variant === variantId) {
                     return { ...item, quantity: item.quantity + 1 }
                 }
                 return item;
@@ -19,7 +19,7 @@ const cartSlice = createSlice({
         decrementCartItem: (state, action) => {
             const { productId, variantId } = action.payload;
             state.items = state.items.map(item => {
-                if (item.product_id === productId && item.variant === variantId) {
+                if (item.product._id === productId && item.variant === variantId) {
                     return { ...item, quantity: item.quantity - 1 }
                 }
                 return item;
