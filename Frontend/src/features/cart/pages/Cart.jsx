@@ -30,31 +30,20 @@ const Cart = () => {
   /* Local quantity state — key: cartItem._id, value: number */
   const [quantities, setQuantities] = useState({});
 
-  const { handleRemoveItem, handleIncrementCartItem, handleDecrementCartItem } = useCart();
+  const { handleRemoveItem, handleIncrementCartItem, handleDecrementCartItem } =
+    useCart();
 
-  const handleIncrement = async (product, varianId, id, delta) => {
-    const result = await handleIncrementCartItem({
+  const handleIncrement = async (product, variantId) => {
+    await handleIncrementCartItem({
       productId: product._id,
-      variantId: varianId,
+      variantId: variantId,
     });
-    if (result.success) {
-      setQuantities((prev) => ({
-        ...prev,
-        [id]: Math.max(1, (prev[id] ?? 1) + delta),
-      }));
-    }
   };
-  const handleDecrement = async (product, varianId, id, delta) => {
-    const result = await handleDecrementCartItem({
+  const handleDecrement = async (product, variantId) => {
+    await handleDecrementCartItem({
       productId: product._id,
-      variantId: varianId,
+      variantId: variantId,
     });
-    if (result.success) {
-      setQuantities((prev) => ({
-        ...prev,
-        [id]: Math.max(1, (prev[id] ?? 1) + delta),
-      }));
-    }
   };
 
   // Handle remove item from cart
@@ -199,9 +188,9 @@ const Cart = () => {
         {/* ── Main Content ── */}
         <div className="max-w-7xl mx-auto px-8 lg:px-16 xl:px-24 pt-12 lg:pt-20">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
-            {/* ═══════════════════════════════════════════════
-                            LEFT COLUMN — Cart Items (65%)
-                        ═══════════════════════════════════════════════ */}
+            {/* ══════════════════════════════════════════════
+              LEFT COLUMN — Cart Items (65%)
+            ═══════════════════════════════════════════════ */}
             <div className="w-full lg:w-[65%]">
               {/* Heading */}
               <div className="mb-10">
@@ -332,7 +321,9 @@ const Cart = () => {
                           >
                             <button
                               id={`qty-dec-${_id}`}
-                              onClick={() => handleDecrement(product, variantId, _id, -1)}
+                              onClick={() =>
+                                handleDecrement(product, variantId)
+                              }
                               className="w-9 h-9 flex items-center justify-center text-sm font-light transition-colors hover:opacity-60"
                               style={{
                                 color: tokens.onSurface,
@@ -351,7 +342,7 @@ const Cart = () => {
                             <button
                               id={`qty-inc-${_id}`}
                               onClick={() =>
-                                handleIncrement(product, variantId, _id, 1)
+                                handleIncrement(product, variantId)
                               }
                               className="w-9 h-9 flex items-center justify-center text-sm font-light transition-colors hover:opacity-60"
                               style={{
@@ -418,9 +409,9 @@ const Cart = () => {
               </div>
             </div>
 
-            {/* ═══════════════════════════════════════════════
-                            RIGHT COLUMN — Order Summary (35%, Sticky)
-                        ═══════════════════════════════════════════════ */}
+            {/* ══════════════════════════════════════════════
+              RIGHT COLUMN — Order Summary (35%, Sticky)
+            ═══════════════════════════════════════════════ */}
             <div className="w-full lg:w-[35%] lg:sticky lg:top-28">
               <div
                 className="p-8"
