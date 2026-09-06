@@ -21,6 +21,11 @@ router.post("/register", registerValidator, register);
  */
 router.post("/login", loginValidator, login);
 
+/**
+ * @route GET /api/auth/google
+ * @desc Authenticate user with Google
+ * @access Public
+ */
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.get("/google/callback", passport.authenticate("google", {
