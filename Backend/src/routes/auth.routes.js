@@ -28,6 +28,11 @@ router.post("/login", loginValidator, login);
  */
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
+/**
+ * @route GET /api/auth/google/callback
+ * @desc Google OAuth callback
+ * @access Public
+ */
 router.get("/google/callback", passport.authenticate("google", {
     session: false,
     failureRedirect: config.NODE_ENV == "development" ? `${config.FRONTEND_URL}/login`: "/login"
