@@ -32,7 +32,7 @@ const Cart = () => {
 
   const { handleRemoveItem, handleIncrementCartItem, handleDecrementCartItem } =
     useCart();
-
+  // Handle increment item quantity
   const handleIncrement = async (product, variantId) => {
     await handleIncrementCartItem({
       productId: product._id,
