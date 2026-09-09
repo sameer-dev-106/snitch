@@ -39,6 +39,7 @@ const Cart = () => {
       variantId: variantId,
     });
   };
+  // Handle decrement item quantity
   const handleDecrement = async (product, variantId) => {
     await handleDecrementCartItem({
       productId: product._id,
