@@ -46,7 +46,6 @@ const Cart = () => {
       variantId: variantId,
     });
   };
-
   // Handle remove item from cart
   const handleRemove = async (product, variantId) => {
     const result = await handleRemoveItem({
@@ -186,12 +185,9 @@ const Cart = () => {
           fontFamily: "'Inter', sans-serif",
         }}
       >
-        {/* ── Main Content ── */}
+        {/* Main Content */}
         <div className="max-w-7xl mx-auto px-8 lg:px-16 xl:px-24 pt-12 lg:pt-20">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
-            {/* ══════════════════════════════════════════════
-              LEFT COLUMN — Cart Items (65%)
-            ═══════════════════════════════════════════════ */}
             <div className="w-full lg:w-[65%]">
               {/* Heading */}
               <div className="mb-10">
@@ -213,7 +209,7 @@ const Cart = () => {
                 </p>
               </div>
 
-              {/* ── Cart Item List ── */}
+              {/* Cart Item List */}
               <div className="flex flex-col gap-6">
                 {cartItems.map((item) => {
                   const { product, variant: variantId, price, _id } = item;
@@ -410,9 +406,7 @@ const Cart = () => {
               </div>
             </div>
 
-            {/* ══════════════════════════════════════════════
-              RIGHT COLUMN — Order Summary (35%, Sticky)
-            ═══════════════════════════════════════════════ */}
+            {/* RIGHT COLUMN — Order Summary (35%, Sticky) */}
             <div className="w-full lg:w-[35%] lg:sticky lg:top-28">
               <div
                 className="p-8"
