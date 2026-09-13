@@ -284,19 +284,6 @@ const Cart = () => {
                             </div>
                           )}
 
-                          {/* Price */}
-                          <p
-                            className="text-[11px] uppercase tracking-[0.2em] font-medium mb-1"
-                            style={{ color: tokens.onSurface }}
-                          >
-                            {displayPrice
-                              ? formatCurrency(
-                                  displayPrice.amount,
-                                  displayPrice.currency,
-                                )
-                              : "—"}
-                          </p>
-
                           {/* Stock */}
                           {stock !== undefined && (
                             <p
@@ -306,10 +293,36 @@ const Cart = () => {
                               {stock > 0 ? `${stock} in stock` : "Out of stock"}
                             </p>
                           )}
+
+                          {/* Price */}
+                          <p
+                            className="text-[11px] uppercase tracking-[0.2em] font-medium mb-1"
+                            style={{ color: tokens.onSurface }}
+                          >
+                            {displayPrice.amount !== variantPrice.amount && (
+                              <span
+                                className="line-through mr-2"
+                                style={{ color: tokens.muted }}
+                              >
+                                {formatCurrency(
+                                  displayPrice.amount,
+                                  displayPrice.currency,
+                                )}
+                              </span>
+                            )}
+                            {displayPrice
+                              ? formatCurrency(
+                                  variantPrice.amount,
+                                  variantPrice.currency,
+                                )
+                              : "—"}
+                          </p>
+
+                          {/* Price Difference */}
                           {displayPrice.amount !== variantPrice.amount && (
                             <>
                               {displayPrice.amount > variantPrice.amount ? (
-                                <p className="text-[10px] uppercase tracking-[0.15em] mb-4 text-green-800 font-bold">
+                                <p className="text-[10px] uppercase tracking-[0.15em] mb-4 text-green-600 font-bold">
                                   You will get this at{" "}
                                   {formatCurrency(
                                     variantPrice.amount,
