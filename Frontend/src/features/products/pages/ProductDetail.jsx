@@ -374,17 +374,6 @@ const ProductDetail = () => {
                 style={{ backgroundColor: "var(--color-surface-highest)" }}
               />
 
-              {/* Reset to original — only visible once a variant has been picked */}
-              {hasSelectedVariant && (
-                <button
-                  onClick={resetToOriginal}
-                  className="mb-6 text-[10px] uppercase tracking-[0.2em] font-medium underline transition-colors hover:text-[#C9A96E] self-start"
-                  style={{ color: "var(--color-muted)" }}
-                >
-                  Show Original
-                </button>
-              )}
-
               {/* Options/Variants */}
               {Object.entries(availableAttributes).map(([attrName, values]) => (
                 <div key={attrName} className="mb-6">
