@@ -97,6 +97,7 @@ const Cart = () => {
     return product.variants.find((v) => v._id === variantId) ?? null;
   };
 
+  /* Get the image to display for a product variant */
   const getDisplayImage = (product, variant) => {
     if (variant?.images?.length) return variant.images[0].url;
     if (product?.images?.length) return product.images[0].url;
