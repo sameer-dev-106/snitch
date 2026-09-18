@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { registerValidator, loginValidator } from "../validation/auth.validator.js";
-import { getMe, googleCallBack, login, register } from "../controllers/auth.controller.js";
+import { forgetPassword, getMe, googleCallBack, login, register } from "../controllers/auth.controller.js";
 import { authenticateUser } from "../middlewares/auth.middleware.js";
 import passport from "passport";
 import { config } from "../config/config.js";
@@ -44,5 +44,12 @@ router.get("/google/callback", passport.authenticate("google", {
  * @access Private
  */
 router.get("/me", authenticateUser, getMe);
+
+/**
+ * @route POST /api/auth/forget-password
+ * @description Forget password route
+ * @access Public
+ */
+router.post("/forget-password", forgetPassword);
 
 export default router;
