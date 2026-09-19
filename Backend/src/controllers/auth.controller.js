@@ -87,3 +87,21 @@ export const getMe = async (req, res, next) => {
         next(err);
     }
 }
+
+export const forgetPassword = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        const user = await userModel.findOne({ email });
+        if (!user) return res.status(404).json({ message: "User not found", success: false, err: "User not found" });
+        const token = jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: "1h" });
+        // Here you would typically send the token to the user's email address
+        // For demonstration purposes, we'll just return the token in the response
+        res.status(200).json({
+            message: "Password reset token generated successfully",
+            success: true,
+            resetToken: token
+        });
+    } catch (err) {
+        next(err);
+    }
+}
