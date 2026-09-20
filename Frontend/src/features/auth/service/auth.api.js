@@ -35,3 +35,12 @@ export const getMe = async () => {
         handleApiError(err, "Failed to fetch user profile.");
     }
 }
+
+export const ForgetPasswordApi = async ({ email }) => {
+    try {
+        const response = await API.post("/forget-password", { email });
+        return response.data;
+    } catch (err) {
+        handleApiError(err, "Failed to send password reset email.");
+    }
+};
