@@ -1,5 +1,5 @@
 import { setUser, setLoading, setError } from "../state/auth.slice";
-import { registerApi, loginApi, getMe } from "../service/auth.api";
+import { registerApi, loginApi, getMe, ForgetPasswordApi } from "../service/auth.api";
 import { useDispatch } from "react-redux";
 
 export const useAuth = () => {
@@ -54,5 +54,19 @@ export const useAuth = () => {
         }
     }
 
-    return { handleRegister, handleLogin, handleGetMe };
+    const handleForgetPassword = async ({ email }) => {
+        dispatch(setLoading(true));
+        try {
+            const data = await ForgetPasswordApi({ email });
+            return { success: true, message: data.message };
+        } catch (err) {
+            const message = typeof err === "string" ? err : err?.message || "Failed to send password reset email.";
+            dispatch(setError(message));
+            return { success: false, error: message };
+        } finally {
+            dispatch(setLoading(false));
+        }
+    };
+
+    return { handleRegister, handleLogin, handleGetMe, handleForgetPassword };
 };
