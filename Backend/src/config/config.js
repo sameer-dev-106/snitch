@@ -30,4 +30,8 @@ export const config = {
     NODE_ENV: process.env.NODE_ENV || "development",
     FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5173",
     BACKEND_URL: process.env.BACKEND_URL || "http://localhost:3000",
+    // optional -> forget-password email won't work until these are set,
+    // but the rest of the app should keep running without them
+    EMAIL_USER: process.env.EMAIL_USER,
+    EMAIL_APP_PASSWORD: process.env.EMAIL_APP_PASSWORD,
 }
