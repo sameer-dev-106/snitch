@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import userModel from "../models/user.model.js";
 import { config } from "../config/config.js";
+import { sendResetPasswordEmail } from "../services/email.service.js";
 
 async function sendTokenResponse(user, res, message) {
     const token = jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: "7d" });
@@ -92,15 +93,47 @@ export const forgetPassword = async (req, res, next) => {
     try {
         const { email } = req.body;
         const user = await userModel.findOne({ email });
-        if (!user) return res.status(404).json({ message: "User not found", success: false, err: "User not found" });
-        const token = jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: "1h" });
-        // Here you would typically send the token to the user's email address
-        // For demonstration purposes, we'll just return the token in the response
-        res.status(200).json({
-            message: "Password reset token generated successfully",
+
+        // Always respond the same way whether or not the email exists —
+        // otherwise this endpoint becomes a way to check who has an
+        // account here (email enumeration).
+        const genericResponse = {
+            message: "If an account exists for that email, a reset link has been sent.",
             success: true,
-            resetToken: token
-        });
+        };
+
+        if (!user) return res.status(200).json(genericResponse);
+
+        const token = jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: "1h" });
+        const resetUrl = `${config.FRONTEND_URL}/reset-password/${token}`;
+
+        await sendResetPasswordEmail({ to: user.email, resetUrl });
+
+        return res.status(200).json(genericResponse);
+    } catch (err) {
+        next(err);
+    }
+}
+
+export const resetPassword = async (req, res, next) => {
+    try {
+        const { token } = req.params;
+        const { password } = req.body;
+
+        let decoded;
+        try {
+            decoded = jwt.verify(token, config.JWT_SECRET);
+        } catch {
+            return res.status(400).json({ message: "This reset link is invalid or has expired", success: false });
+        }
+
+        const user = await userModel.findById(decoded.id);
+        if (!user) return res.status(404).json({ message: "User not found", success: false });
+
+        user.password = password; // pre-save hook in user.model.js hashes it
+        await user.save();
+
+        return res.status(200).json({ message: "Password reset successfully", success: true });
     } catch (err) {
         next(err);
     }
