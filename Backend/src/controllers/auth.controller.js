@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import userModel from "../models/user.model.js";
 import { config } from "../config/config.js";
-import { sendResetPasswordEmail } from "../services/email.service.js";
+import { sendEmail } from "../services/email.service.js";
 
 async function sendTokenResponse(user, res, message) {
     const token = jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: "7d" });
@@ -94,9 +94,6 @@ export const forgetPassword = async (req, res, next) => {
         const { email } = req.body;
         const user = await userModel.findOne({ email });
 
-        // Always respond the same way whether or not the email exists —
-        // otherwise this endpoint becomes a way to check who has an
-        // account here (email enumeration).
         const genericResponse = {
             message: "If an account exists for that email, a reset link has been sent.",
             success: true,
@@ -107,7 +104,22 @@ export const forgetPassword = async (req, res, next) => {
         const token = jwt.sign({ id: user._id }, config.JWT_SECRET, { expiresIn: "1h" });
         const resetUrl = `${config.FRONTEND_URL}/reset-password/${token}`;
 
-        await sendResetPasswordEmail({ to: user.email, resetUrl });
+        await sendEmail({
+            to: email,
+            subject: "Reset your Snitch password",
+            html: `
+                <div style="font-family: sans-serif; max-width: 480px; margin: auto;">
+                    <h2 style="font-weight: 500;">Reset your password</h2>
+                    <p>We received a request to reset your Snitch account password. Click the button below to choose a new one. This link expires in 1 hour.</p>
+                    <p style="margin: 24px 0;">
+                        <a href="${resetUrl}" style="background:#1b1c1a;color:#fbf9f6;padding:12px 24px;text-decoration:none;border-radius:4px;display:inline-block;">
+                            Reset Password
+                        </a>
+                    </p>
+                    <p style="color:#7A6E63;font-size:13px;">If you didn't request this, you can safely ignore this email — your password won't change.</p>
+                </div>
+            `,
+        })
 
         return res.status(200).json(genericResponse);
     } catch (err) {
