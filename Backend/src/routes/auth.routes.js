@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { registerValidator, loginValidator } from "../validation/auth.validator.js";
-import { forgetPassword, getMe, googleCallBack, login, register } from "../controllers/auth.controller.js";
+import { registerValidator, loginValidator, forgetPasswordValidator, resetPasswordValidator } from "../validation/auth.validator.js";
+import { forgetPassword, resetPassword, getMe, googleCallBack, login, register } from "../controllers/auth.controller.js";
 import { authenticateUser } from "../middlewares/auth.middleware.js";
 import passport from "passport";
 import { config } from "../config/config.js";
@@ -47,9 +47,16 @@ router.get("/me", authenticateUser, getMe);
 
 /**
  * @route POST /api/auth/forget-password
- * @description Forget password route
+ * @description Forget password route — emails a reset link, valid for 1 hour
  * @access Public
  */
-router.post("/forget-password", forgetPassword);
+router.post("/forget-password", forgetPasswordValidator, forgetPassword);
+
+/**
+ * @route POST /api/auth/reset-password/:token
+ * @description Consumes the reset token from the email link and sets a new password
+ * @access Public
+ */
+router.post("/reset-password/:token", resetPasswordValidator, resetPassword);
 
 export default router;
