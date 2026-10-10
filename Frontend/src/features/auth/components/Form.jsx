@@ -65,6 +65,26 @@ const Form = ({
         }}
       />
 
+      {!isRegister && (
+        <div className="-mt-3 text-right">
+          <Link
+            to="/forgot-password"
+            className="text-[11px]"
+            style={{
+              color: "var(--color-muted)",
+              textDecoration: "underline",
+              textUnderlineOffset: "3px",
+            }}
+            onMouseEnter={(e) =>
+              (e.target.style.color = "var(--color-accent)")
+            }
+            onMouseLeave={(e) => (e.target.style.color = "var(--color-muted)")}
+          >
+            Forgot password?
+          </Link>
+        </div>
+      )}
+
       {isRegister && (
         <SellerCheckbox
           props={{
@@ -80,19 +100,28 @@ const Form = ({
       />
 
       <div className="flex items-center gap-4">
-        <div className="flex-1 h-px" style={{ backgroundColor: "#e4e2df" }} />
+        <div
+          className="flex-1 h-px"
+          style={{ backgroundColor: "var(--color-surface-highest)" }}
+        />
         <span
           className="text-[10px] uppercase tracking-[0.15em]"
           style={{ color: "var(--color-muted)" }}
         >
           or
         </span>
-        <div className="flex-1 h-px" style={{ backgroundColor: "#e4e2df" }} />
+        <div
+          className="flex-1 h-px"
+          style={{ backgroundColor: "var(--color-surface-highest)" }}
+        />
       </div>
 
       <ContinueWithGoogle />
 
-      <p className="text-center text-[11px]" style={{ color: "#B5ADA3" }}>
+      <p
+        className="text-center text-[11px]"
+        style={{ color: "var(--color-muted-light)" }}
+      >
         {isRegister ? (
           <>
             Already have an account?{" "}
