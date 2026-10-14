@@ -23,6 +23,17 @@ const leftContent = {
     subtext:
       "Your style journey continues. Sign in to explore new arrivals and manage your wardrobe.",
   },
+  forgot: {
+    heading: (
+      <>
+        Forgot your
+        <br />
+        <em>password?</em>
+      </>
+    ),
+    subtext:
+      "No worries — it happens. Enter your email and we'll send you a link to get back in.",
+  },
 };
 
 const images = {
@@ -31,6 +42,10 @@ const images = {
     dark: "/snitch_editorial.png",
   },
   login: {
+    light: "/snitch_editorial_warm.png",
+    dark: "/snitch_editorial.png",
+  },
+  forgot: {
     light: "/snitch_editorial_warm.png",
     dark: "/snitch_editorial.png",
   },
