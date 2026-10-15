@@ -44,3 +44,12 @@ export const ForgetPasswordApi = async ({ email }) => {
         handleApiError(err, "Failed to send password reset email.");
     }
 };
+
+export const ResetPasswordApi = async ({ token, password }) => {
+    try {
+        const response = await API.post(`/reset-password/${token}`, { password });
+        return response.data;
+    } catch (err) {
+        handleApiError(err, "Failed to reset password.");
+    }
+};
