@@ -29,7 +29,7 @@ const ForgotPassword = () => {
 
   return (
     <main
-      className="min-h-screen flex flex-col lg:flex-row selection:bg-[var(--color-accent)]/30"
+      className="min-h-screen flex flex-col lg:flex-row selection:bg-(--color-accent)/30"
       style={{
         backgroundColor: "var(--color-bg)",
         fontFamily: "'Inter', sans-serif",
