@@ -4,7 +4,7 @@ import { useCart } from "../hook/useCart";
 import { Link, useNavigate } from "react-router";
 import Toast from "../../../shared/Toast";
 
-/* ─── Inline styles & tokens matching the "Avenue Montaigne" design system ─── */
+/* Inline styles & tokens matching the "Avenue Montaigne" design system */
 const tokens = {
   surface: "var(--color-bg)",
   surfaceLow: "var(--color-surface-low)",
@@ -80,7 +80,7 @@ const Cart = () => {
     }
   }, [cartItems]);
 
-  /* ─── Derived totals ─── */
+  /* Derived totals */
   const subtotal =
     cartItems?.reduce((sum, item) => {
       const qty = quantities[item._id] ?? item.quantity ?? 1;
@@ -91,7 +91,7 @@ const Cart = () => {
   const shippingFree = subtotal >= freeShippingThreshold;
   const totalPieces = cartItems?.length ?? 0;
 
-  /* ─── Helpers ─── */
+  /* Helpers */
   const getVariantDetails = (product, variantId) => {
     if (!product?.variants || !variantId) return null;
     return product.variants.find((v) => v._id === variantId) ?? null;
@@ -107,7 +107,7 @@ const Cart = () => {
   const formatCurrency = (amount, currency = "INR") =>
     `${currency} ${Number(amount).toLocaleString("en-IN")}`;
 
-  /* ─── Empty state ─── */
+  /* Empty state */
   if (!cartItems?.length) {
     return (
       <>
