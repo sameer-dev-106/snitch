@@ -1,5 +1,3 @@
-
-
 const ContinueWithGoogle = () => {
   const newLocal = "flex items-center justify-center w-full bg-transparent border border-[#E8E2D9] px-4 py-3 text-sm font-medium text-[#7A6E63] hover:border-[var(--color-accent)] hover:text-[var(--color-text)] transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-[#C9A96E] focus:ring-offset-2 focus:ring-offset-[#fbf9f6]";
   return (
