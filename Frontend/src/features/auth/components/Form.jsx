@@ -75,9 +75,7 @@ const Form = ({
               textDecoration: "underline",
               textUnderlineOffset: "3px",
             }}
-            onMouseEnter={(e) =>
-              (e.target.style.color = "var(--color-accent)")
-            }
+            onMouseEnter={(e) => (e.target.style.color = "var(--color-accent)")}
             onMouseLeave={(e) => (e.target.style.color = "var(--color-muted)")}
           >
             Forgot password?
