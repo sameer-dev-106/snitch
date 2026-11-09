@@ -27,7 +27,6 @@ const Cart = () => {
   const navigate = useNavigate();
   const [toast, setToast] = useState(null);
 
-  /* Local quantity state — key: cartItem._id, value: number */
   const [quantities, setQuantities] = useState({});
 
   const { handleRemoveItem, handleIncrementCartItem, handleDecrementCartItem } =
