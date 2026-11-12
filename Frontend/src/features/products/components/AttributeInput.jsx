@@ -29,7 +29,7 @@ const AttributeInput = ({ props }) => {
             />
             {props.attributeInputs.length > 1 && (
               <button
-                onClick={() =>props. handleRemoveAttribute(index)}
+                onClick={() => props.handleRemoveAttribute(index)}
                 className="text-[#ba1a1a] p-2 hover:bg-[#ffdad6] transition-colors cursor-pointer"
               >
                 <TrashIcon />
