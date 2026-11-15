@@ -1,5 +1,4 @@
-
-const StockField = ({newVariant, setNewVariant}) => {
+const StockField = ({ newVariant, setNewVariant }) => {
   return (
     <div className="flex gap-4">
       <div className="w-1/2">
@@ -40,6 +39,6 @@ const StockField = ({newVariant, setNewVariant}) => {
       </div>
     </div>
   );
-}
+};
 
-export default StockField
+export default StockField;
