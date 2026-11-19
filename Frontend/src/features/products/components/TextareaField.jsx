@@ -1,4 +1,4 @@
-const TextareaField = ({props}) => {
+const TextareaField = ({ props }) => {
   const inputStyle = {
     color: "var(--color-text)",
     borderBottom: "1px solid var(--color-border)",
@@ -10,7 +10,6 @@ const TextareaField = ({props}) => {
   const handleBlur = (e) => {
     e.target.style.borderBottomColor = "var(--color-muted)";
   };
-
 
   return (
     <div className="flex flex-col gap-2">
@@ -35,6 +34,6 @@ const TextareaField = ({props}) => {
       />
     </div>
   );
-}
+};
 
-export default TextareaField
+export default TextareaField;
