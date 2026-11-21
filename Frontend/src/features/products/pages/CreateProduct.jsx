@@ -25,7 +25,7 @@ const CreateProduct = () => {
   const [toast, setToast] = useState(null);
   const fileInputRef = useRef(null);
 
-  // ── First variant (mandatory) — a product with zero variants can't be
+  // First variant (mandatory) — a product with zero variants can't be
   // bought by anyone, so we collect at least one right here at creation time.
   const [attributeInputs, setAttributeInputs] = useState([
     { key: "", value: "" },
@@ -166,10 +166,10 @@ const CreateProduct = () => {
         }}
       >
         <div className="max-w-6xl mx-auto px-8 lg:px-16 xl:px-24">
-          {/* ── Top Bar ── */}
+          {/* Top Bar */}
           <TopBar />
 
-          {/* ── Page Header ── */}
+          {/* Page Header */}
           <div className="pt-10 pb-0">
             <h1
               className="text-4xl lg:text-5xl font-light leading-tight"
@@ -187,7 +187,7 @@ const CreateProduct = () => {
             />
           </div>
 
-          {/* ── Form ── */}
+          {/* Form */}
           <ProductForm
             formData={formData}
             handleSubmit={handleSubmit}
@@ -203,7 +203,7 @@ const CreateProduct = () => {
             isDragging={isDragging}
             removeImage={removeImage}
           >
-            {/* ── First Variant (mandatory) ── */}
+            {/* First Variant (mandatory) */}
             <div
               className="mt-16 lg:mt-20 pt-10 border-t"
               style={{ borderColor: "var(--color-border)" }}
